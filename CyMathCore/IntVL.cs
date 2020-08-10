@@ -963,6 +963,7 @@ namespace CyMathCore
         public override string ToString()
         {
             string res = "";
+            this.Compact();
 
             for (int i = digits.Length - 1; i >= 0; i--)
             { res += digits[i].ToString(); }

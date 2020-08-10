@@ -18,9 +18,18 @@ Date: 10 August 2020
 CyMathCore RELEASE V2.0 BUILD 8 Revision 100
 Date: 10 August 2020
 - Transfer from .Net Framework classes:
-- ByteResult, IntVL
+- ByteResult, IntVL, MathVL
 - Test Project XUnitTestCyMath
-	- TestByteResult class
+	- XTestByteResult class
+
+
+CyMathCore RELEASE V2.0 BUILD 8 Revision 101
+Date: 10 August 2020
+- XTestByteResult:
+	- ByteResult_Subtraction, ByteResult_Addition, ByteResultMultiplication, ByteResult_Subtraction, 
+- XTestIntVL:
+	- IntVL_Construction, IntVL_Parse, IntVL_ParseLong
+
 
 
 
