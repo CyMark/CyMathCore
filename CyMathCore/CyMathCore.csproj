@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Company>CyMark Largo Services</Company>
+    <Authors>P.Swanepoel</Authors>
+    <PackageId>CY31.006</PackageId>
+    <Copyright>© CyMark Largo Services 2020</Copyright>
+    <Description>CyMathCore RELEASE V2.0 BUILD 8 Revision 99</Description>
+    <Version>2.0.8.99</Version>
+    <AssemblyVersion>2.0.8.99</AssemblyVersion>
+    <FileVersion>2.0.8.99</FileVersion>
+  </PropertyGroup>
+
+</Project>
