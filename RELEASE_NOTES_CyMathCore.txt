@@ -10,8 +10,18 @@ Repositor:  GitHub CyMark\CyMathCore
 Dependencies:  None
 
 
-CyMath RELEASE V2.0 BUILD 8 Revision 99
+CyMathCore RELEASE V2.0 BUILD 8 Revision 99
 Date: 10 August 2020
 - Get ready for GitHub
+
+
+CyMathCore RELEASE V2.0 BUILD 8 Revision 100
+Date: 10 August 2020
+- Transfer from .Net Framework classes:
+- ByteResult, IntVL
+- Test Project XUnitTestCyMath
+	- TestByteResult class
+
+
 
 ===== end =====
