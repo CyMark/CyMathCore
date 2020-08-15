@@ -31,6 +31,11 @@ Date: 10 August 2020
 	- IntVL_Construction, IntVL_Parse, IntVL_ParseLong
 
 
+CyMathCore RELEASE V2.0 BUILD 8 Revision 102
+Date: 15 August 2020
+- XTestIntVL:
+	- More testing:
+		- Division not fixed yet
 
 
 ===== end =====

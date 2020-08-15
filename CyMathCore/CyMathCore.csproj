@@ -6,10 +6,10 @@
     <Authors>P.Swanepoel</Authors>
     <PackageId>CY31.006</PackageId>
     <Copyright>© CyMark Largo Services 2020</Copyright>
-    <Description>CyMathCore RELEASE V2.0 BUILD 8 Revision 101</Description>
+    <Description>CyMathCore RELEASE V2.0 BUILD 8 Revision 102</Description>
     <Version>2.0.8.101</Version>
-    <AssemblyVersion>2.0.8.101</AssemblyVersion>
-    <FileVersion>2.0.8.101</FileVersion>
+    <AssemblyVersion>2.0.8.102</AssemblyVersion>
+    <FileVersion>2.0.8.102</FileVersion>
   </PropertyGroup>
 
 </Project>

@@ -626,12 +626,6 @@ namespace CyMathCore
             IntVL n = new IntVL(this);
             IntVL d = new IntVL(denominator);
 
-
-            if (denominator.Length == 1)
-            {
-                d = d.ShiftLeft(); // * by 10 to ensure at least a two digit denominator
-            }
-
             int nrShifts = d.Length - 2;
             
             if(nrShifts > 0)
@@ -643,7 +637,7 @@ namespace CyMathCore
             int dInt = d.ToInt32();
             int m = 0;
             //return new IntVL(div);
-            // long division
+            // long division  https://en.wikipedia.org/wiki/Division_algorithm
             for (int k = 1; k < n.Length; k++)
             {
                 m *= 10;
@@ -656,7 +650,7 @@ namespace CyMathCore
                 res = v * 10 + n.digits[n.Length - 2 - k];
                 //if (k > 1) { throw new Exception($"res={res},div={div},m={m},v={v}"); }
             }
-            //throw new NotImplementedException();
+            
             result = new IntVL(m);
 
             if (!sign)
@@ -760,8 +754,11 @@ namespace CyMathCore
         }
 
 
-        #endregion division
 
+
+
+        #endregion division
+        //---------------------------------------------------------------------------------------------------------------------------------------
 
 
         public int CompareTo(object obj)
