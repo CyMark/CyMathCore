@@ -21,9 +21,7 @@ namespace CyMathCore
             digits = new byte[1];
             digits[0] = 0;
         }
-
-
-
+        
 
         public IntVL(bool sign, byte[] digitArray)
         {
@@ -771,6 +769,9 @@ namespace CyMathCore
                 else { return -1; }
             }
 
+            this.Compact();
+            inval.Compact();
+
             if (Length == inval.Length)
             {
                 for (int n = Length - 1; n >= 0; n--)
@@ -811,11 +812,11 @@ namespace CyMathCore
             if (obj == null) { return false; }
             IntVL input = obj as IntVL;
 
+            if (positive != input.positive) { return false; }
             this.Compact();
             input.Compact();
             if (Length != input.Length) { return false; }
-            if (positive != input.positive) { return false; }
-
+            
             for (int ndx = 0; ndx < Length; ndx++)
             {
                 if (digits[ndx] != input.digits[ndx]) { return false; }
@@ -941,7 +942,7 @@ namespace CyMathCore
             if (stringVal.StartsWith("-"))
             {
                 pos = false;
-                stringVal = stringVal.Substring(1, stringVal.Length - 1);
+                stringVal = stringVal[1..]; //.Substring(1, stringVal.Length - 1);
             }
 
             byte[] nDigits = new byte[stringVal.Length];

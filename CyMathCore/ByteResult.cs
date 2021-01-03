@@ -77,7 +77,7 @@ namespace CyMathCore
 
         void CheckError(byte a)
         {
-            if (a > 9 | a < 0) { throw new ArithmeticException($"*Error: Value range for byte is 0-9, but was {a}!"); }
+            if (a > 9) { throw new ArithmeticException($"*Error: Value range for byte is 0-9, but was {a}!"); }
         }
 
     }
