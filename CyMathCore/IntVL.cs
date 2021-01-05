@@ -159,6 +159,7 @@ namespace CyMathCore
         public static IntVL operator ++(IntVL val) => val + new IntVL(1);
         // --
         public static IntVL operator --(IntVL val) => val - new IntVL(1);
+        
 
         // assignemt
         public static implicit operator IntVL(int x) => new IntVL(x);
@@ -224,8 +225,10 @@ namespace CyMathCore
 
         public IntVL Negate()
         {
-            IntVL res = new IntVL(this);
-            res.positive = !positive;
+            IntVL res = new (this)
+            {
+                positive = !positive
+            };
 
             return res;
         }
@@ -598,64 +601,68 @@ namespace CyMathCore
         {
             if(denominator.IsZero) { throw new DivideByZeroException("IntVL cannot divide by zero!"); };
 
-            IntVL result = new IntVL();
-            this.Compact();
-            denominator.Compact();
+            DivisionResult divRes = DivisionVL(this, denominator);
 
-            if(Length < denominator.Length) { return result; }  // zero if numerator has less digits that denominator
+            return divRes.Quotient;
 
-            bool sign = this.positive == denominator.positive;
+            //IntVL result = new IntVL();
+            //this.Compact();
+            //denominator.Compact();
 
-            if (Length == denominator.Length)
-            {
-                //return new IntVL(GetTopTwoDigits(this));
-                int num = GetTopTwoDigits(this);
-                int den = GetTopTwoDigits(denominator);
-                //return new IntVL(den);
-                result = num / den;
+            //if(Length < denominator.Length) { return result; }  // zero if numerator has less digits that denominator
 
-                if(!sign)
-                {
-                    return result.Negate();
-                }
-                return result;
-            }
+            //bool sign = this.positive == denominator.positive;
 
-            IntVL n = new IntVL(this);
-            IntVL d = new IntVL(denominator);
+            //if (Length == denominator.Length)
+            //{
+            //    //return new IntVL(GetTopTwoDigits(this));
+            //    int num = GetTopTwoDigits(this);
+            //    int den = GetTopTwoDigits(denominator);
+            //    //return new IntVL(den);
+            //    result = num / den;
 
-            int nrShifts = d.Length - 2;
+            //    if(!sign)
+            //    {
+            //        return result.Negate();
+            //    }
+            //    return result;
+            //}
+
+            //IntVL n = new IntVL(this);
+            //IntVL d = new IntVL(denominator);
+
+            //int nrShifts = d.Length - 2;
             
-            if(nrShifts > 0)
-            {
-                n = n.ShiftRight(nrShifts); // divide both by 10 * nrShits to line-up with a denomimator of two digits
-                d = d.ShiftRight(nrShifts);
-            }
-            int res = GetTopTwoDigits(n);
-            int dInt = d.ToInt32();
-            int m = 0;
-            //return new IntVL(div);
-            // long division  https://en.wikipedia.org/wiki/Division_algorithm
-            for (int k = 1; k < n.Length; k++)
-            {
-                m *= 10;
-                int div = res / dInt;
+            //if(nrShifts > 0)
+            //{
+            //    n = n.ShiftRight(nrShifts); // divide both by 10 * nrShits to line-up with a denomimator of two digits
+            //    d = d.ShiftRight(nrShifts);
+            //}
+            //int res = GetTopTwoDigits(n);
+            //int dInt = d.ToInt32();
+            //int m = 0;
+            ////return new IntVL(div);
+            //// long division  https://en.wikipedia.org/wiki/Division_algorithm
+            //for (int k = 1; k < n.Length; k++)
+            //{
+            //    m *= 10;
+            //    int div = res / dInt;
                 
-                m = div + m;
-                //int v = div * dInt;
-                int v = res - div* dInt;
-                if(n.Length - 2 - k < 0) { break; }
-                res = v * 10 + n.digits[n.Length - 2 - k];
-                //if (k > 1) { throw new Exception($"res={res},div={div},m={m},v={v}"); }
-            }
+            //    m = div + m;
+            //    //int v = div * dInt;
+            //    int v = res - div* dInt;
+            //    if(n.Length - 2 - k < 0) { break; }
+            //    res = v * 10 + n.digits[n.Length - 2 - k];
+            //    //if (k > 1) { throw new Exception($"res={res},div={div},m={m},v={v}"); }
+            //}
             
-            result = new IntVL(m);
+            //result = new IntVL(m);
 
-            if (!sign)
-            {
-                return result.Negate();
-            }
-            return result;
+            //if (!sign)
+            //{
+            //    return result.Negate();
+            //}
+            //return result;
         } // Divide
 
 
@@ -679,12 +686,13 @@ namespace CyMathCore
             return 0;
         }
 
+        public static IntVL UnitVL => new IntVL(1);
 
         //------------------------------------------------------------------------------
         // Division
         //------------------------------------------------------------------------------
         #region division
-        
+
         /// <summary>
         /// Estimates the division of the numerator and denominator (numerator/denominator) as a starting point for convergence to final answer.
         /// If the number of digits of the denominator is longer than 17 digits (Max long - Int64 = is 19 digits), then shift right decimal (divide by 10) 
@@ -749,6 +757,55 @@ namespace CyMathCore
 
 
             return new IntVL(val.positive, narr);
+        }
+
+
+
+        public static DivisionResult DivisionVL(IntVL numerator, IntVL denominator)
+        {
+            DivisionResult result = new DivisionResult { Quotient = 0, Remainder = 0 };
+
+            bool sign = !( numerator.positive ^ denominator.positive );
+
+            IntVL Numerator = new IntVL(numerator);
+            if(!Numerator.positive) { Numerator.positive = true; }
+            IntVL Denominator = new IntVL(denominator);
+            if(!Denominator.positive) { Denominator.positive = true; }
+
+            if(Denominator > Numerator )
+            {
+                return result;  // Floor which is zero
+            }
+
+            int range = Numerator.Length - Denominator.Length;
+            while (Numerator >= Denominator)
+            {
+                if(range < 0) { break; }
+                IntVL shifted_denominator = Denominator.ShiftLeft(range); // x10 so same nr digits above/below divide line
+                //throw new Exception($"r={range},N={Numerator},SD={shifted_denominator}");
+                IntVL diff = Numerator - shifted_denominator;
+                if (shifted_denominator <= Numerator)
+                {
+                    Numerator -= shifted_denominator;
+                    result.Quotient += new IntVL(1).ShiftLeft(range);
+                }
+                else
+                {
+                    range--;
+                }
+
+                if(Numerator < Denominator)
+                {
+                    result.Remainder = diff;
+                    break;
+                }
+
+            }
+
+
+
+            result.Quotient.positive = sign;
+            return result;
         }
 
 

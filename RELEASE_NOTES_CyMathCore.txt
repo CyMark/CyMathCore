@@ -5,7 +5,7 @@ The purpose of this library is to provide mathematics constructs and processing 
 This is a conversion of .Net 4.6.1 to .NetCore of "CyMath RELEASE V1.6 BUILD 7 Revision 98".  It is intended to extend this
 library to contain things like PrimeCalc (From MathView).
 
-Platform: .NetCore 3.1
+Platform: .Net 5.0
 Repositor:  GitHub CyMark\CyMathCore
 Dependencies:  None
 
@@ -36,6 +36,23 @@ Date: 15 August 2020
 - XTestIntVL:
 	- More testing:
 		- Division not fixed yet
+
+
+CyMathCore RELEASE V3.0.0 BUILD 9 Revision 103
+Date: 3 January 2021
+- Convert to .Net 5.0
+- Added Number.cs
+
+
+CyMathCore RELEASE V3.0.1 BUILD 10 Revision 104
+Date: 5 January 2021
+- IntVL:
+	- DivisionVL using shifting and multiplying to caluclate Quotient and Remainder.
+- Class Division Result to capture the quotient and remainder of IntVL division
+
+
+
+
 
 
 ===== end =====

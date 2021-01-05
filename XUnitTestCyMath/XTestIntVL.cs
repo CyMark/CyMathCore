@@ -134,6 +134,7 @@ namespace XUnitTestCyMath
             IntVL b = new IntVL(B);
             IntVL res = new IntVL(R);
             Assert.Equal(res, a * b);
+            var r = a.Multiply(b);
         }
 
 
@@ -158,7 +159,7 @@ namespace XUnitTestCyMath
         [InlineData(1000, 250, 4)]
         [InlineData(1000, 25, 40)]
         [InlineData(123456, 63, 1959)]
-        [InlineData(987654321, 777, 1271112)]
+        [InlineData(987654024, 777, 1271112)]
         [InlineData(987654321, 7777, 126996)]
         public void IntVL_Division(long numerator, long denominator, long result)
         {
@@ -167,5 +168,31 @@ namespace XUnitTestCyMath
             IntVL Res = new IntVL(result);
             Assert.Equal(Res, Num / Den);
         }
+
+        [Theory]
+        [InlineData("10","100","0","0")]
+        [InlineData("100","100","1","0")]
+        [InlineData("100","10","10","0")]
+        [InlineData("100","9","11","1")]
+        [InlineData("9876","33","299","9")]
+        [InlineData("987654321", "777", "1271112","297")]
+        [InlineData("987654321", "7777", "126996", "6429")]
+        [InlineData("-987654321", "7777", "-126996", "6429")]
+        [InlineData("-987654321", "-7777", "126996", "6429")]
+        [InlineData("987654321", "-7777", "-126996", "6429")]
+        public void IntVL_Divide(string numerator, string denominator, string quotient, string remainder)
+        {
+            IntVL Numerator = new IntVL(numerator);
+            IntVL Denominator = new IntVL(denominator);
+            IntVL Quotient = new IntVL(quotient);
+            IntVL Remainder = new IntVL(remainder);
+            //var res = IntVL.Dev
+            //Numerator.Div
+            DivisionResult res = IntVL.DivisionVL(Numerator, Denominator);
+            Assert.Equal(Quotient, res.Quotient);
+            Assert.Equal(Remainder, res.Remainder);
+        }
+
+
     }
 }
