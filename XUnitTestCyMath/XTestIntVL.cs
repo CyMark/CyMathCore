@@ -193,6 +193,23 @@ namespace XUnitTestCyMath
             Assert.Equal(Remainder, res.Remainder);
         }
 
+        [Theory]
+        [InlineData("10", "100",  "0")]
+        [InlineData("100", "100","0")]
+        [InlineData("987654321", "777", "297")]
+        [InlineData("987654321", "7777", "6429")]
+        [InlineData("-987654321", "7777", "6429")]
+        [InlineData("-987654321", "-7777", "6429")]
+        [InlineData("987654321", "-7777", "6429")]
+        public void IntVL_Modulus(string numerator, string denominator, string modulus)
+        {
+            IntVL Numerator = new IntVL(numerator);
+            IntVL Denominator = new IntVL(denominator);
+            IntVL Remainder = new IntVL(modulus);
+            IntVL result = Numerator % Denominator;
+            Assert.Equal(Remainder, result);
+        }
+
 
     }
 }

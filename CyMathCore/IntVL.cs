@@ -179,48 +179,14 @@ namespace CyMathCore
         // /
         public static IntVL operator /(IntVL left, IntVL right) => left.Divide(right);
 
+        public static IntVL operator %(IntVL left, IntVL right)
+        {
+            IntVL temp = new IntVL(left);
+            return temp.Modulus(right);
+        }
+
+
         public IntVL Add(IntVL val) => Combine(val);
-        /*
-        public IntVL Add2(IntVL val)
-        {
-            if (IsZero) { return new IntVL(val); }
-            if (val.IsZero) { return new IntVL(this); }
-            if (positive != val.positive) { return Sub(this, val); }
-
-            int mxLen = Length;
-            if (val.Length > Length) { mxLen = val.Length; }
-            mxLen++;
-
-            ByteResult res = new ByteResult();
-            byte[] result = new byte[mxLen];
-            byte residual = 0;
-            for (int n = 0; n < mxLen; n++)
-            {
-                byte a = 0;
-                byte b = 0;
-                if (n < Length) { a = digits[n]; }
-                if (n < val.Length) { b = val[n]; }
-                res.Add(a, b);
-                //a = res.Result;
-                if (residual > 0) { res.Add(res.Result, residual); }
-                result[n] = res.Result;
-                residual = res.OverFlow;
-            }
-
-            IntVL output = new IntVL(positive, result);
-            output.Compact();
-            return output;
-        }
-        
-        public IntVL Subtract(IntVL val)
-        {
-            if (IsZero) { return new IntVL(val); }
-            if (val.IsZero) { return new IntVL(this); }
-            IntVL sub = new IntVL(val);
-            sub.positive = !sub.positive;  // multiply by -1
-            return Add(sub);
-        }
-        */
 
 
         public IntVL Negate()
@@ -595,6 +561,14 @@ namespace CyMathCore
         }
 
 
+        public IntVL Modulus(IntVL denominator)
+        {
+            if (denominator.IsZero) { return new IntVL(0); };
+
+            DivisionResult divRes = DivisionVL(this, denominator);
+
+            return divRes.Remainder;
+        }
 
 
         public IntVL Divide(IntVL denominator)
@@ -692,7 +666,7 @@ namespace CyMathCore
         // Division
         //------------------------------------------------------------------------------
         #region division
-
+        /*
         /// <summary>
         /// Estimates the division of the numerator and denominator (numerator/denominator) as a starting point for convergence to final answer.
         /// If the number of digits of the denominator is longer than 17 digits (Max long - Int64 = is 19 digits), then shift right decimal (divide by 10) 
@@ -730,19 +704,11 @@ namespace CyMathCore
             //throw new Exception($"res={res}");
             return res;
 
-            throw new Exception($"n={n}/d={d} and n/d={n/d}, estimate={estimate}");
+            //throw new Exception($"n={n}/d={d} and n/d={n/d}, estimate={estimate}");
 
-            //n = n / d;
-
-            return n; // new IntVL( n );
-            /*
-            IntVL result = new IntVL(estimate).ShiftLeft(num.Length - divisor.Length - 1); // x10 to align result with orignal numertor size after division
-            result.positive = numerator.positive == denominator.positive;
-
-            return result;*/
 
         }  // DivideEstimate
-
+        */
 
         private IntVL GetTopNrDigits(IntVL val, int nrDigits)
         {
@@ -807,8 +773,6 @@ namespace CyMathCore
             result.Quotient.positive = sign;
             return result;
         }
-
-
 
 
 
@@ -906,8 +870,10 @@ namespace CyMathCore
 
         public IntVL Absolute()
         {
-            IntVL res = new IntVL(this);
-            res.positive = true;
+            IntVL res = new (this)
+            {
+                positive = true
+            };
             return res;
         }
 

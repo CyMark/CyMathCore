@@ -49,10 +49,16 @@ Date: 5 January 2021
 - IntVL:
 	- DivisionVL using shifting and multiplying to caluclate Quotient and Remainder.
 - Class Division Result to capture the quotient and remainder of IntVL division
+- Division now works finally!
 
 
-
-
+CyMathCore RELEASE V3.0.2 BUILD 11 Revision 105
+Date: 11 January 2021
+- IntVL:
+	- Operator %  (modulus)
+- Class EratosthenesVL for finding primes
+- Classes imported: PrimeCalc and PrimeTuple
+	- This still needs to be converted to IntVL
 
 
 ===== end =====

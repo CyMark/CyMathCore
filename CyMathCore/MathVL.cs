@@ -92,6 +92,11 @@ namespace CyMathCore
 
             return new IntVL();
         }
+
+        public static bool IsPrime(IntVL checkPrime)
+        {
+            return new EratosthenesVL().IsPrime(checkPrime);
+        }
         
 
     }
