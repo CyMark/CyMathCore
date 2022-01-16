@@ -61,4 +61,11 @@ Date: 11 January 2021
 	- This still needs to be converted to IntVL
 
 
+CyMathCore RELEASE V3.1 BUILD 12 Revision 106
+Date: 16 January 2022
+- PrimeCalc:
+	- Enable loading of PrimeList
+- ComplexNumber.  New class
+	- 
+
 ===== end =====

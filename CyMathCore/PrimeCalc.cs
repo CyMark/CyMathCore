@@ -9,12 +9,27 @@ namespace CyMathCore
     {
         public PrimeCalc()
         {
-            Primes = new List<long> { 2, 3, 5, 7, 11, 13, 19 };
+            Primes = new() { 2, 3, 5, 7, 11, 13, 19 };
         }
 
         public List<long> Primes { get; private set; }
 
         long MaxPrime { get { return Primes[^1]; } }
+
+
+        public void LoadPrimes(List<long> loadList)
+        {
+            Primes = new();
+            foreach (long id in loadList)
+            {
+                if (id == 2 || id == 5) { Primes.Add(id); }
+                else 
+                {
+                    if (id % 2 == 1 && id % 5 != 0) { Primes.Add(id); }
+                }
+            }
+            Primes = Primes.OrderBy(o => o).ToList();
+        }
 
 
         public bool IsPrime(int checkVal) => IsPrime((long)checkVal);
@@ -35,7 +50,7 @@ namespace CyMathCore
                 if(maxCheck > MaxPrime)
                 {
                     // add more primes
-                    for(long p = MaxPrime + 2; p <= maxCheck; p = p + 2)
+                    for(long p = MaxPrime + 2; p <= maxCheck; p += 2)
                     {
                         if(p % 5 != 0)
                         {
@@ -87,7 +102,7 @@ namespace CyMathCore
 
         public List<PrimeTuple> GetPrimeFactors(long nrToEvaluate)
         {
-            List<PrimeTuple> factors = new List<PrimeTuple>();
+            List<PrimeTuple> factors = new();
 
             if(IsPrime(nrToEvaluate)) { return factors; }
 
@@ -103,18 +118,18 @@ namespace CyMathCore
                     PrimeTuple tup = factors.Where(q => q.Prime == val).FirstOrDefault();
                     if(tup == null)
                     {
-                        PrimeTuple nTup = new PrimeTuple { Prime = val, Count = 1 };
+                        PrimeTuple nTup = new() { Prime = val, Count = 1 };
                         factors.Add(nTup);
                     }
                     else
                     {
                         tup.Count++;
                     }
-                    nValue = nValue / val;
+                    nValue /= val;
                 }
                 if(IsPrime(nValue))
                 {
-                    PrimeTuple nTup = new PrimeTuple { Prime = nValue, Count = 1 };
+                    PrimeTuple nTup = new() { Prime = nValue, Count = 1 };
                     factors.Add(nTup);
                     break;
                 }

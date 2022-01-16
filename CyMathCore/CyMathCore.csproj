@@ -5,11 +5,12 @@
     <Company>CyMark Largo Services</Company>
     <Authors>P.Swanepoel</Authors>
     <PackageId>CY31.006</PackageId>
-    <Copyright>© CyMark Largo Services 2020</Copyright>
-    <Description>CyMathCore RELEASE V3.0.2 BUILD 11 Revision 105</Description>
-    <Version>3.0.2.11</Version>
-    <AssemblyVersion>3.0.2.11</AssemblyVersion>
-    <FileVersion>3.0.2.11</FileVersion>
+    <Copyright>© CyMark Largo Services 2020-2022</Copyright>
+    <Description>CyMathCore RELEASE V3.1 BUILD 12 Revision 106
+Date: 16 January 2022</Description>
+    <Version>3.1.12.106</Version>
+    <AssemblyVersion>3.1.12.106</AssemblyVersion>
+    <FileVersion>3.1.12.106</FileVersion>
   </PropertyGroup>
 
 </Project>
