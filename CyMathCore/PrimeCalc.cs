@@ -9,7 +9,8 @@ namespace CyMathCore
     {
         public PrimeCalc()
         {
-            Primes = new() { 2, 3, 5, 7, 11, 13, 19 };
+            Primes = new() { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71 };
+            //[2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]
         }
 
         public List<long> Primes { get; private set; }
@@ -36,7 +37,13 @@ namespace CyMathCore
         public bool IsPrime(long checkVal)
         {
             if(checkVal <= 1) { return false; }
-            if(Primes.Find(q => q == checkVal) != checkVal)
+
+            if (checkVal == 2 || checkVal == 3 || checkVal == 5) { return true; }
+
+            if (checkVal % 2 == 0 || checkVal % 3 == 0 || checkVal % 5 == 0) { return false; }
+
+
+            if (Primes.Find(q => q == checkVal) != checkVal)
             {
                 // first check existing list
                 /*foreach (long val in Primes)
@@ -45,23 +52,36 @@ namespace CyMathCore
                 }
                 int startIndex = Primes.Count;
                 */
-                int maxCheck = (int)Math.Sqrt(checkVal);
+                //int maxCheck = (int)Math.Sqrt(checkVal);
 
-                if(maxCheck > MaxPrime)
+                if(checkVal > MaxPrime*MaxPrime)
                 {
-                    // add more primes
-                    for(long p = MaxPrime + 2; p <= maxCheck; p += 2)
+
+                    //long nextValToCheck = MaxPrime + 2;
+                    for (long i = MaxPrime + 2; i * i <= checkVal; i += 6)
                     {
-                        if(p % 5 != 0)
-                        {
-                            if (IsPrime(p)) { Primes.Add(p); }
-                        }
+
+                        if (checkVal % i == 0 || checkVal % (i + 2) == 0)
+                        { return false; }
+                        //if (IsPrime(i)) { Primes.Add(i); };
+                        //if (IsPrime(i+2)) { Primes.Add(i+2); throw new Exception($"i={i},Mx={MaxPrime}"); };
+                        //else { Primes.Add(i); return true; }
                     }
+                    return true;
+
+                    // add more primes
+                    //for (long p = MaxPrime + 2; p <= checkVal/2; p += 2)
+                    //{
+                    //    if(p % 5 != 0)
+                    //    {
+                    //        if (IsPrime(p)) { Primes.Add(p); }
+                    //    }
+                    //}
                 }
 
                 foreach(long val in Primes)
                 {
-                    if(val > maxCheck) { return true; } // found!
+                    if(val*val > checkVal) { return true; } // found!
                     if (checkVal % val == 0) { return false; } 
                 }
 
@@ -80,7 +100,7 @@ namespace CyMathCore
             {
                 plist += Primes[n].ToString() + ",";
             }
-
+            plist = plist[..^1];
             return plist + "]";
 
         } // PrimeListToView
@@ -94,7 +114,7 @@ namespace CyMathCore
                 if(idx < 0) { continue; }
                 plist += Primes[idx].ToString() + ",";
             }
-
+            plist = plist[..^1];
             return plist + "]";
 
         } // PrimeListToView
@@ -106,13 +126,13 @@ namespace CyMathCore
 
             if(IsPrime(nrToEvaluate)) { return factors; }
 
-            int maxCheck = (int)Math.Sqrt(nrToEvaluate);
+            //int maxCheck = (int)Math.Sqrt(nrToEvaluate);
 
             long nValue = nrToEvaluate;
 
             foreach (long val in Primes)
             {
-                if (val > maxCheck) { return factors; } // done!
+                if (val*val > nrToEvaluate) { return factors; } // done!
                 while (nValue % val == 0)
                 {
                     PrimeTuple tup = factors.Where(q => q.Prime == val).FirstOrDefault();

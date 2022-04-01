@@ -66,6 +66,19 @@ Date: 16 January 2022
 - PrimeCalc:
 	- Enable loading of PrimeList
 - ComplexNumber.  New class
-	- 
 
+
+CyMathCore RELEASE V3.2 BUILD 13 Revision 107
+Date: 1 April 2022
+- IntVL:
+	- Fix Remainder of division if numerator < denominator
+	- More test on modulus
+	- New method: Digital Root (sum of digits - range of 0-9, with 0 only appearing for 0)
+- PrimeCalc:
+	- Modify this calculation as per: https://en.wikipedia.org/wiki/Primality_test
+	- Can no longer use the auto list building like the sieve.
+	- TODO: Check Proper working of Prime factors.
+	
+	
+	
 ===== end =====

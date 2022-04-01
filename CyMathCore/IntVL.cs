@@ -162,8 +162,8 @@ namespace CyMathCore
         
 
         // assignemt
-        public static implicit operator IntVL(int x) => new IntVL(x);
-        public static implicit operator IntVL(long x) => new IntVL(x);
+        public static implicit operator IntVL(int x) => new(x);
+        public static implicit operator IntVL(long x) => new(x);
 
         public static explicit operator int(IntVL x) => x.ToInt32();
         public static explicit operator long(IntVL x) => x.ToInt64();
@@ -181,7 +181,7 @@ namespace CyMathCore
 
         public static IntVL operator %(IntVL left, IntVL right)
         {
-            IntVL temp = new IntVL(left);
+            IntVL temp = new(left);
             return temp.Modulus(right);
         }
 
@@ -191,7 +191,7 @@ namespace CyMathCore
 
         public IntVL Negate()
         {
-            IntVL res = new (this)
+            IntVL res = new(this)
             {
                 positive = !positive
             };
@@ -201,7 +201,7 @@ namespace CyMathCore
 
         public IntVL Combine(IntVL val)
         {
-            if (val.Negate() == this) { return new IntVL(); } // + and minus the same
+            if (val.Negate() == this) { return new(); } // + and minus the same
             bool sign = val.positive;
 
             byte[] result;// = null;
@@ -226,7 +226,7 @@ namespace CyMathCore
 
             //if(result == null) { return new IntVL(121212121212); }
 
-            IntVL output = new IntVL(sign, result);
+            IntVL output = new(sign, result);
             return output;
 
         } // Combine
@@ -239,7 +239,7 @@ namespace CyMathCore
             mxLen++;
             byte[] result = new byte[mxLen];
             byte residual = 0;
-            ByteResult r = new ByteResult();
+            ByteResult r = new();
 
             for (int n = 0; n < mxLen; n++)
             {
@@ -269,7 +269,7 @@ namespace CyMathCore
             mxLen++;
             byte[] result = new byte[mxLen];
             byte residual = 0;
-            ByteResult r = new ByteResult();
+            ByteResult r = new();
 
             for (int n = 0; n < mxLen; n++)
             {
@@ -386,15 +386,15 @@ namespace CyMathCore
             //if(val > this) { positive = false; }
             IntVL tleft = Left.Absolute();
             IntVL tright = Right.Absolute();
-            IntVL left = new IntVL(tleft);
-            IntVL right = new IntVL(tright);
+            IntVL left = new(tleft);
+            IntVL right = new(tright);
             if (tleft < tright)
             {
                 left = new IntVL(tright);
                 right = new IntVL(tleft);
             }
 
-            ByteResult res = new ByteResult();
+            ByteResult res = new();
             byte[] result = new byte[mxLen];
             byte residual = 0;
             for (int n = 0; n < mxLen; n++)
@@ -410,7 +410,7 @@ namespace CyMathCore
                 residual = res.OverFlow;
             }
 
-            IntVL output = new IntVL(positive, result);
+            IntVL output = new(positive, result);
             if(Left < 0)
             {
                 if(tleft > tright) { output.positive = false; }
@@ -434,8 +434,8 @@ namespace CyMathCore
         /// <returns></returns>
         public IntVL ShiftLeft(int n)
         {
-            if (IsZero) { return new IntVL(this); }
-            IntVL res = new IntVL(this);
+            if (IsZero) { return new(this); }
+            IntVL res = new(this);
             for(int i = 0; i < n; i++)
             {
                 res = res.ShiftLeft();
@@ -450,7 +450,7 @@ namespace CyMathCore
         /// <returns></returns>
         public IntVL ShiftLeft()
         {
-            if(IsZero) { return new IntVL(this); }
+            if(IsZero) { return new(this); }
             this.Compact();
             byte[] array = new byte[Length + 1];
             array[0] = 0;
@@ -466,17 +466,17 @@ namespace CyMathCore
 
         public IntVL Multiply(IntVL right)
         {
-            if (IsZero || right == 1) { return new IntVL(this); }
-            if (right.IsZero) { return new IntVL(); }
+            if (IsZero || right == 1) { return new(this); }
+            if (right.IsZero) { return new(); }
 
-            IntVL top = new IntVL(this);
-            IntVL bottom = new IntVL(right);
+            IntVL top = new(this);
+            IntVL bottom = new(right);
             if(bottom.Length > top.Length)
             {
-                top = new IntVL(right);
-                bottom = new IntVL(this);
+                top = new(right);
+                bottom = new(this);
             }
-            IntVL res = new IntVL();
+            IntVL res = new();
             //byte[] result = new byte[top.Length + bottom.Length];
             //IntVL ntop = new IntVL(top);
             for(int n = 0; n < bottom.Length; n++)
@@ -497,13 +497,13 @@ namespace CyMathCore
         /// <returns></returns>
         public IntVL Multiply(byte val)
         {
-            if (IsZero || val == 1) { return new IntVL(this); }
-            if(val == 0) { return new IntVL(); }
+            if (IsZero || val == 1) { return new(this); }
+            if(val == 0) { return new(); }
             this.Compact();
 
             byte[] array = new byte[Length + 1];
             byte residual = 0;
-            ByteResult res = new ByteResult();
+            ByteResult res = new();
             for (int n = 0; n < Length; n++)
             {
                 res.Multiply(val, digits[n]);
@@ -520,7 +520,7 @@ namespace CyMathCore
                 array[n] = res.Result;
             }
             array[Length] = residual;
-            IntVL output = new IntVL(positive, array);
+            IntVL output = new(positive, array);
             output.Compact();
             
             return output;
@@ -529,8 +529,8 @@ namespace CyMathCore
 
         public IntVL ShiftRight(int n)
         {
-            if (IsZero) { return new IntVL(this); }
-            IntVL res = new IntVL(this);
+            if (IsZero) { return new(this); }
+            IntVL res = new(this);
             for (int i = 0; i < n; i++)
             {
                 res = res.ShiftRight();
@@ -547,9 +547,9 @@ namespace CyMathCore
         /// <returns></returns>
         public IntVL ShiftRight()
         {
-            if (IsZero) { return new IntVL(this); }
+            if (IsZero) { return new(this); }
             this.Compact();
-            if(Length == 1) { return new IntVL(); } // Return zero if cannot shift right anymore
+            if(Length == 1) { return new(); } // Return zero if cannot shift right anymore
 
             byte[] array = new byte[Length - 1];
             for (int x = 1; x < Length; x++)
@@ -563,7 +563,7 @@ namespace CyMathCore
 
         public IntVL Modulus(IntVL denominator)
         {
-            if (denominator.IsZero) { return new IntVL(0); };
+            if (denominator.IsZero) { return new(0); };
 
             DivisionResult divRes = DivisionVL(this, denominator);
 
@@ -660,7 +660,7 @@ namespace CyMathCore
             return 0;
         }
 
-        public static IntVL UnitVL => new IntVL(1);
+        public static IntVL UnitVL => new(1);
 
         //------------------------------------------------------------------------------
         // Division
@@ -713,7 +713,7 @@ namespace CyMathCore
         private IntVL GetTopNrDigits(IntVL val, int nrDigits)
         {
             val.Compact();
-            if(nrDigits >= val.Length) { return new IntVL(val); }
+            if(nrDigits >= val.Length) { return new(val); }
 
             byte[] narr = new byte[nrDigits];
             for(int n = 0; n < nrDigits; n++)
@@ -729,18 +729,19 @@ namespace CyMathCore
 
         public static DivisionResult DivisionVL(IntVL numerator, IntVL denominator)
         {
-            DivisionResult result = new DivisionResult { Quotient = 0, Remainder = 0 };
+            DivisionResult result = new() { Quotient = new(0), Remainder = new(0) };
 
             bool sign = !( numerator.positive ^ denominator.positive );
 
-            IntVL Numerator = new IntVL(numerator);
+            IntVL Numerator = new(numerator);
             if(!Numerator.positive) { Numerator.positive = true; }
-            IntVL Denominator = new IntVL(denominator);
+            IntVL Denominator = new(denominator);
             if(!Denominator.positive) { Denominator.positive = true; }
 
-            if(Denominator > Numerator )
+            if (Denominator > Numerator)
             {
-                return result;  // Floor which is zero
+                result.Remainder = new(Numerator);
+                return result;  // Floor which is zero quotient
             }
 
             int range = Numerator.Length - Denominator.Length;
@@ -851,7 +852,7 @@ namespace CyMathCore
             unchecked // Overflow is fine, just wrap
             {
                 int hash = 17;
-                if (!positive) { hash = hash * 23; }
+                if (!positive) { hash *= 23; }
                 foreach (byte b in digits)
                 {
                     hash = hash * 23 + b.GetHashCode();
@@ -877,6 +878,46 @@ namespace CyMathCore
             return res;
         }
 
+        /// <summary>
+        /// Returns the digital root
+        /// </summary>
+        /// <returns></returns>
+        public int DigitalRoot()
+        {
+            if (digits.Length == 0) { return 0; }
+            if (this.IsZero) { return 0; }
+
+            IntVL modeREs = this.Modulus(new(9));
+
+            if (modeREs.IsZero) { return 9; }
+
+            return modeREs.ToInt32();
+
+
+            //IntVL one = new(1);
+            //IntVL two = this - one;
+
+            //IntVL res = one + two.Modulus(new(9));
+
+            //return res.ToInt32();
+
+            //long digital_root = -1;
+            //IntVL check = new(this);
+
+            //while (digital_root < 0 || digital_root > 9)
+            //{
+            //    digital_root = 0;
+            //    for (int i = 0; i < check.digits.Length; i++)
+            //    {
+            //        digital_root += digits[i];
+            //    }
+            //    if(digital_root < 10) { break; }
+            //    check = new(digital_root);
+            //}
+
+            //return (int)digital_root;
+        }
+
 
 
         #endregion Functions
@@ -887,7 +928,7 @@ namespace CyMathCore
         #region Conversions
 
 
-        byte[] CopyArray(byte[] inArray)
+        static byte[] CopyArray(byte[] inArray)
         {
             byte[] res = new byte[inArray.Length];
             for (int n = 0; n < inArray.Length; n++)
@@ -946,7 +987,7 @@ namespace CyMathCore
         {
             //char[] cDigits = "0123456789".ToCharArray();
 
-            Dictionary<char, byte> charMap = new Dictionary<char, byte>
+            Dictionary<char, byte> charMap = new()
             {
                 { '0', 0 },
                 { '1', 1 },

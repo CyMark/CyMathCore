@@ -40,8 +40,8 @@ namespace CyMathCore
         {
             if (val <= 0) { throw new InvalidOperationException("*Error: Cannot caluculate Fibonacci nr for zero or negative numbers"); }
             if (val == 1) { return new IntVL(1); }
-            IntVL p2 = new IntVL(0);
-            IntVL p1 = new IntVL(1);
+            IntVL p2 = new(0);
+            IntVL p1 = new(1);
             return Fibo2(val, p1, p2);
         }
         
@@ -81,12 +81,12 @@ namespace CyMathCore
             if (val1.IsZero || val2.IsZero) { return new IntVL(); }
             if(val1 == 1 || val2 == 1) { return new IntVL(1); }
 
-            IntVL large = new IntVL(val1.Absolute());
-            IntVL small = new IntVL(val2.Absolute());
+            IntVL large = new(val1.Absolute());
+            IntVL small = new(val2.Absolute());
             if (large < small)
             {
-                large = new IntVL(val2.Absolute());
-                small = new IntVL(val1.Absolute());
+                large = new(val2.Absolute());
+                small = new(val1.Absolute());
             }
             //TODO:  Euclid's algorithm 
 
