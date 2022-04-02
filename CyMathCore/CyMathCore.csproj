@@ -6,11 +6,11 @@
     <Authors>P.Swanepoel</Authors>
     <PackageId>CY31.006</PackageId>
     <Copyright>© CyMark Largo Services 2020-2022</Copyright>
-    <Description>CyMathCore RELEASE V3.2 BUILD 13 Revision 107
-Date: 1 April 2022</Description>
+    <Description>CyMathCore RELEASE V3.2 BUILD 13 Revision 108
+Date: 2 April 2022</Description>
     <Version>3.1.12.106</Version>
-    <AssemblyVersion>3.2.13.107</AssemblyVersion>
-    <FileVersion>3.2.13.107</FileVersion>
+    <AssemblyVersion>3.2.13.108</AssemblyVersion>
+    <FileVersion>3.2.13.108</FileVersion>
   </PropertyGroup>
 
 </Project>

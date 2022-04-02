@@ -78,7 +78,12 @@ Date: 1 April 2022
 	- Modify this calculation as per: https://en.wikipedia.org/wiki/Primality_test
 	- Can no longer use the auto list building like the sieve.
 	- TODO: Check Proper working of Prime factors.
-	
-	
-	
+
+
+
+CyMathCore RELEASE V3.2 BUILD 13 Revision 108
+Date: 2 April 2022
+- PrimeCalc:
+	- Seems like all the PrimeCalc actions are working now.
+
 ===== end =====
