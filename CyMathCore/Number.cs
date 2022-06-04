@@ -89,12 +89,10 @@ namespace CyMathCore
 
         public Number(decimal Value)
         {
-
             Number cnum = Number.Parse(Value.ToString());
             significand = cnum.significand;
             exponent = cnum.exponent;
             return;
-
         }
 
 
@@ -111,9 +109,9 @@ namespace CyMathCore
             string mantissa = txt.Trim().ToUpper().Replace("+", "");
             string fraction = null;
 
-            long coeff = 0;
+            long coeff;
             int expInt = 0;
-            sbyte exp = 0;
+            sbyte exp;
             bool isNeg = false;
 
             if (mantissa.Contains("E"))
@@ -147,7 +145,7 @@ namespace CyMathCore
             // Check for leading zeroes on mantissa
             while (mantissa[0] == '0' && mantissa.Length > 1)
             {
-                mantissa = mantissa.Substring(1, mantissa.Length - 1);
+                mantissa = mantissa[1..];
             }
 
             if (!string.IsNullOrEmpty(fraction))
@@ -159,14 +157,14 @@ namespace CyMathCore
                         int len = mantissa.Length - 15;
                         //exp += (sbyte)len; // + exp;
                         expInt += len;
-                        mantissa = mantissa.Substring(0, 15);
+                        mantissa = mantissa[..15];
                     }
                     else
                     {
                         int len = mantissa.Length + fraction.Length - 15;
                         //exp -= (sbyte)(fraction.Length - len);
                         expInt -= fraction.Length - len;
-                        mantissa += fraction.Substring(0, fraction.Length - len);
+                        mantissa += fraction[..^len];
                     }
                 }
                 else
@@ -174,7 +172,7 @@ namespace CyMathCore
                     int len = fraction.Length;
                     //exp -= (sbyte)(len);
                     expInt -= len;
-                    mantissa += fraction.Substring(0, len);
+                    mantissa += fraction[..len];
                 }
             }
 
@@ -274,7 +272,7 @@ namespace CyMathCore
         /// <param name="value"></param>
         public Number AdjustExponent(sbyte value)
         {
-            Number res = new Number(this);
+            Number res = new (this);
             if (NaN) throw new ArithmeticException(errorArithmatic);
             if (IsZero)
             {
@@ -329,8 +327,8 @@ namespace CyMathCore
         {
             CheckNaN();
             CheckOverflow();
-            if (IsZero) return new Number(0);
-            return new Number(significand / 10, ++exponent);
+            if (IsZero) return new (0);
+            return new (significand / 10, ++exponent);
 
         } // ShiftDecimalLeft
 
@@ -344,8 +342,8 @@ namespace CyMathCore
         {
             CheckNaN();
             CheckOverflow();
-            if (IsZero) return new Number(0);
-            return new Number(significand * 10, --exponent);
+            if (IsZero) return new (0);
+            return new (significand * 10, --exponent);
 
         } // ShiftDecimalRight
 
@@ -356,7 +354,7 @@ namespace CyMathCore
         /// </summary>
         public Number FlushZeroes()
         {
-            Number res = new Number(this);
+            Number res = new (this);
             if (res.significand == 0) { return res; }
             int count = 0;
             while (res.significand % 10 == 0)
@@ -375,7 +373,7 @@ namespace CyMathCore
         /// <returns></returns>
         public Number FlushLeft()
         {
-            Number res = new Number(this);
+            Number res = new (this);
 
             while (res.significand < MaxValueDivTen && res.significand > MinValueDivTen)
             {
@@ -400,8 +398,8 @@ namespace CyMathCore
         public static Number operator +(Number left, Number right)
         {
             if (left.NaN || right.NaN) throw new InvalidOperationException(errorArithmatic);
-            Number lh = new Number(left);
-            Number rh = new Number(right);
+            Number lh = new (left);
+            Number rh = new (right);
             if (lh.IsZero) { return rh; }
             if (rh.IsZero) { return lh; }
 
@@ -477,7 +475,7 @@ namespace CyMathCore
             left.CheckNaN();
             right.CheckNaN();
             //if (left.NaN || right.NaN) return new Number();
-            if (left.IsZero || right.IsZero) return new Number(0);
+            if (left.IsZero || right.IsZero) return new (0);
 
             // Remove all trailing zeroes on the 
             Number lh = left.FlushZeroes(); // Make coefficient as small as possible
@@ -531,7 +529,7 @@ namespace CyMathCore
                 exptot++;
             }
 
-            Number nNr = new Number(coeff, (sbyte)exptot);
+            Number nNr = new (coeff, (sbyte)exptot);
             /*
             if(coeff > MaxValue || coeff < MinValue)
             {
@@ -549,7 +547,7 @@ namespace CyMathCore
             right.CheckNaN();
             if (right.IsZero && left.IsZero) { throw new InvalidOperationException(errorOperation); }
             if (right.IsZero) { throw new ArithmeticException("*Error: Divide by zero!"); }
-            if (left.IsZero) { return new Number(0); }
+            if (left.IsZero) { return new (0); }
 
             Number rh = new Number(right).FlushZeroes();  // Denominator coefficient as small as possible without
             Number lh = new Number(left).FlushLeft();   // Numerator coefficient as large as possible
@@ -557,7 +555,7 @@ namespace CyMathCore
             int exptot = lh.exponent - rh.exponent;
             if (exptot > 127 || exptot < -127) { throw new OverflowException(errorExponentOverflow); }
 
-            return new Number(lh.significand / rh.significand, (sbyte)exptot);
+            return new (lh.significand / rh.significand, (sbyte)exptot);
         }
 
         public static bool operator ==(Number left, Number right) => left.Equals(right);
@@ -613,10 +611,10 @@ namespace CyMathCore
         public static bool operator <=(Number left, long right) => left.ToInt64() <= right;
 
 
-        public static implicit operator Number(long d) => new Number(d);  // implicit conversion
-        public static implicit operator Number(double value) => new Number(value);
-        public static implicit operator Number(int value) => new Number(value);
-        public static implicit operator Number(decimal value) => new Number(value);
+        public static implicit operator Number(long d) => new (d);  // implicit conversion
+        public static implicit operator Number(double value) => new (value);
+        public static implicit operator Number(int value) => new (value);
+        public static implicit operator Number(decimal value) => new (value);
 
 
         //public static explicit operator Number(decimal val) => new Number(val);
@@ -660,7 +658,7 @@ namespace CyMathCore
         /// Returns PI, regardless of the value of this nr, but does not change this value;
         /// </summary>
         /// <returns></returns>
-        public static Number Pi() => new Number(Math.PI);
+        public static Number Pi() => new (Math.PI);
 
 
         /// <summary>
@@ -695,7 +693,7 @@ namespace CyMathCore
         } // Power
 
 
-        public static Number Factorial(int n) => new Number(Faculty(n));
+        public static Number Factorial(int n) => new (Faculty(n));
 
         public static long Faculty(int n)
         {
@@ -780,8 +778,8 @@ namespace CyMathCore
             if (tmp.NaN) throw new InvalidOperationException(errorArithmatic);
 
             if (tmp.significand == significand && tmp.exponent == exponent) return true;
-            Number lh = new Number(this);
-            Number rh = new Number(tmp);
+            Number lh = new (this);
+            Number rh = new (tmp);
             if (lh.exponent != rh.exponent)
             {
                 if (lh.exponent < rh.exponent)
@@ -814,8 +812,8 @@ namespace CyMathCore
             Number tmp = obj as Number;
             if (tmp.NaN) throw new InvalidOperationException(errorArithmatic);
 
-            Number lh = new Number(this);
-            Number rh = new Number(tmp);
+            Number lh = new (this);
+            Number rh = new (tmp);
             if (lh.exponent != rh.exponent)
             {
                 if (lh.exponent < rh.exponent)

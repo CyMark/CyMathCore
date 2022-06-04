@@ -21,6 +21,13 @@ namespace CyMathCore
             Imaginary = imaginary;
         }
 
+        public ComplexNumber(PolarPoperty polar)
+        {
+            Real = polar.Radius * Math.Cos(polar.Angle);
+            Imaginary = polar.Radius * Math.Sin(polar.Angle);
+        }
+
+
         public ComplexNumber(ComplexNumber copy)
         {
             Real = copy.Real;
@@ -34,6 +41,9 @@ namespace CyMathCore
         public  bool IsZero => Real == 0 && Imaginary == 0;
 
 
+        public ComplexNumber Conjugate() => new(Real, -1 * Imaginary);
+
+
         //--------------------------------------------------------
         // operators
         //--------------------------------------------------------
@@ -43,7 +53,7 @@ namespace CyMathCore
         public static bool operator !=(ComplexNumber left, ComplexNumber right) => !left.Equals(right);
 
 
-        public static ComplexNumber operator+(ComplexNumber left, ComplexNumber right)
+        public static ComplexNumber operator +(ComplexNumber left, ComplexNumber right)
         {
             return new ComplexNumber(left.Real + right.Real, left.Imaginary + right.Imaginary);  
         }
@@ -56,7 +66,31 @@ namespace CyMathCore
 
         public static ComplexNumber operator *(ComplexNumber left, ComplexNumber right)
         {
-            return new ComplexNumber(left.Real * right.Real - left.Imaginary * left.Imaginary , left.Real*right.Imaginary + left.Imaginary * right.Real);
+            return new ComplexNumber(left.Real * right.Real - left.Imaginary * right.Imaginary , left.Real * right.Imaginary + left.Imaginary * right.Real);
+        }
+
+        public static ComplexNumber operator *(double left, ComplexNumber right)
+        {
+            return new ComplexNumber(left * right.Real, left * right.Imaginary);
+        }
+
+        public static ComplexNumber operator /(ComplexNumber left, ComplexNumber right)
+        {
+            if (right.IsZero) { throw new DivideByZeroException(); }
+
+            ComplexNumber rightConj = right.Conjugate();
+
+            ComplexNumber denom = right*rightConj; 
+
+            ComplexNumber numerator = left*rightConj;
+
+            return numerator / denom.Real;
+        }
+
+        public static ComplexNumber operator /(ComplexNumber left, double right)
+        {
+            if(right == 0) { throw new DivideByZeroException($"Attempting to divide {left} by zero!"); }
+            return 1/right * new ComplexNumber(left);
         }
 
 
@@ -88,6 +122,15 @@ namespace CyMathCore
                 hash = hash * 23 + Imaginary.GetHashCode();
                 return hash;
             }
+        }
+
+        public override string ToString()
+        {
+            string res = $"{Real}";
+            if (Imaginary < 0) { res += $" {Imaginary}i"; }
+            else { res += $" +{Imaginary}i"; }
+
+            return res;
         }
 
 

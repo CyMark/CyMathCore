@@ -80,10 +80,22 @@ Date: 1 April 2022
 	- TODO: Check Proper working of Prime factors.
 
 
-
 CyMathCore RELEASE V3.2 BUILD 13 Revision 108
 Date: 2 April 2022
 - PrimeCalc:
 	- Seems like all the PrimeCalc actions are working now.
+
+
+CyMathCore RELEASE V3.3 BUILD 14 Revision 109
+Date: 4 June 2022
+- ComplexNumber:
+	- Add divide operaror
+	- Add Complex Conjugate
+- Statistics:
+	- New class for statistical calculations
+	- Normal Distribution
+	- Inverse not working yet
+
+
 
 ===== end =====
