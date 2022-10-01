@@ -114,7 +114,7 @@ namespace CyMathCore
             sbyte exp;
             bool isNeg = false;
 
-            if (mantissa.Contains("E"))
+            if (mantissa.Contains('E'))
             {
                 string[] parts = mantissa.Split("E".ToCharArray());
                 mantissa = parts[0];
@@ -134,7 +134,7 @@ namespace CyMathCore
                 mantissa = mantissa.Replace("-", "");
             }
 
-            if (mantissa.Contains("."))
+            if (mantissa.Contains('.'))
             {
                 string[] parts = mantissa.Split(".".ToCharArray());
                 mantissa = parts[0];
@@ -258,7 +258,7 @@ namespace CyMathCore
             if (this.NaN) throw new InvalidOperationException(errorArithmatic);
         }
 
-        private void CheckExponent(int Exponent)
+        private static void CheckExponent(int Exponent)
         {
             if (Exponent > 127 || Exponent < -127) { throw new OverflowException(errorExponentOverflow); ; }
         }
@@ -760,7 +760,7 @@ namespace CyMathCore
                 if (n % 2 == 0) { div = -n; }
                 Number temp = tmp.Power(n) / div;
                 if (temp.IsZero) { break; }
-                res = res + temp;
+                res += temp;
             }
             return res;
         }

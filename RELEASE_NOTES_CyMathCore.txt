@@ -5,7 +5,7 @@ The purpose of this library is to provide mathematics constructs and processing 
 This is a conversion of .Net 4.6.1 to .NetCore of "CyMath RELEASE V1.6 BUILD 7 Revision 98".  It is intended to extend this
 library to contain things like PrimeCalc (From MathView).
 
-Platform: .Net 5.0
+Platform: .Net 6.0
 Repositor:  GitHub CyMark\CyMathCore
 Dependencies:  None
 
@@ -95,6 +95,11 @@ Date: 4 June 2022
 	- New class for statistical calculations
 	- Normal Distribution
 	- Inverse not working yet
+	
+	
+CyMathCore RELEASE V3.4 BUILD 15 Revision 110
+Date: 1 October 2022
+- Upgrade to .Net6 for both CyMathCore and XUnitTestCyMath projects.
 
 
 
