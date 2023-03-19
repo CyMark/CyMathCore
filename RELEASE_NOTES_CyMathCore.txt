@@ -96,10 +96,18 @@ Date: 4 June 2022
 	- Normal Distribution
 	- Inverse not working yet
 	
-	
+
 CyMathCore RELEASE V3.4 BUILD 15 Revision 110
 Date: 1 October 2022
 - Upgrade to .Net6 for both CyMathCore and XUnitTestCyMath projects.
+
+
+CyMathCore RELEASE V3.5 BUILD 16 Revision 111
+Date: 19 March 2023
+- MathVL convert Fibonacci to use memo:  Memoize
+- Add as UnitTest
+
+
 
 
 

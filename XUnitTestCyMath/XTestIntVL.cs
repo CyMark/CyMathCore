@@ -251,5 +251,21 @@ namespace XUnitTestCyMath
         }
 
 
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(2, 1)]
+        [InlineData(3, 2)]
+        [InlineData(20, 6765)]
+        [InlineData(50, 12586269025)]
+        //[InlineData(70, 190392490709135)]
+        //[InlineData(90, 2880067194370816120)]
+        public void IntVL_Fibonacci(int input,Int64 output)
+        {
+            IntVL result = new(output);
+            IntVL actual = MathVL.Fibbonacci(input);
+            Assert.Equal(actual, result);
+        }
+
+
     }
 }
