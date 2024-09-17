@@ -105,7 +105,7 @@ namespace CyMathCore
 
         public List<PrimeTuple> GetPrimeFactors(long nrToEvaluate)
         {
-            List<PrimeTuple> factors = new();
+            List<PrimeTuple> factors = [];
 
 
             if (IsPrime(nrToEvaluate)) { return factors; }
@@ -269,7 +269,7 @@ namespace CyMathCore
         public string PrimeFactorsToView(List<PrimeTuple> factors)
         {
             string view = "";
-            if (factors.Count() == 0) { return view; }
+            if (factors.Count == 0) { return view; }
 
             foreach(var fact in factors)
             {

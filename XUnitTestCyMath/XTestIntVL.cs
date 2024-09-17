@@ -258,13 +258,47 @@ namespace XUnitTestCyMath
         [InlineData(3, 2)]
         [InlineData(20, 6765)]
         [InlineData(50, 12586269025)]
-        //[InlineData(70, 190392490709135)]
-        //[InlineData(90, 2880067194370816120)]
+        [InlineData(70, 190392490709135)]
+        [InlineData(90, 2880067194370816120)]
         public void IntVL_Fibonacci(int input,Int64 output)
         {
             IntVL result = new(output);
             IntVL actual = MathVL.Fibonacci(input);
             Assert.Equal(actual, result);
+        }
+
+        [Theory]
+        [InlineData(0, false)]
+        [InlineData(1, false)]
+        [InlineData(2, true)]
+        [InlineData(3, true)]
+        [InlineData(4, false)]
+        [InlineData(7, true)]
+        [InlineData(9, false)]
+        [InlineData(83, true)]
+        [InlineData(191, true)]
+        [InlineData(5051, true)] // > 71 * 71
+        [InlineData(5059, true)]
+        [InlineData(5077, true)]
+        [InlineData(5081, true)]
+        [InlineData(5087, true)]
+        [InlineData(5099, true)]
+        [InlineData(10086647, false)]
+        [InlineData(841, false)]
+        [InlineData(10000379, true)]
+        [InlineData(10000397, false)]
+        [InlineData(100000393, true)]
+        [InlineData(1000000403, true)]
+        [InlineData(1000000407, false)]
+        [InlineData(600851475143, false)]
+        [InlineData(600851475583, true)]
+        [InlineData(18848997161, true)]
+        [InlineData(18848997157, false)]
+        [InlineData(188489971511, false)]
+        public void IntVL_IsPrime(long val, bool isPrime)
+        {
+            IntVL valLarge = new(val);
+            Assert.Equal(isPrime, MathVL.IsPrime(valLarge));
         }
 
 

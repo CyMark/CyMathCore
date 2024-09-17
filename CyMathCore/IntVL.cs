@@ -9,7 +9,7 @@ namespace CyMathCore
     /// <summary>
     /// Manage integers > 19 digits in length
     /// </summary>
-    public class IntVL : IComparable
+    public class IntVL : IComparable<IntVL>, IEquatable<IntVL>
     {
         bool positive;
         byte[] digits;
@@ -64,6 +64,8 @@ namespace CyMathCore
         public IntVL(int val) : this((long)val)
         { ; }
 
+
+        public IntVL(decimal val) : this((long)val) { ; }   
 
         public bool IsZero
         {
@@ -706,13 +708,20 @@ namespace CyMathCore
         {
             if (Equals(obj)) { return 0; }
             IntVL inVal = obj as IntVL;
+            return this.CompareTo(inVal);
+        }
+
+
+        public int CompareTo(IntVL inVal)
+        {
+            if (this.Equals(inVal)) { return 0; }
             if (positive != inVal.positive)
             {
                 if (positive) { return 1; }
                 else { return -1; }
             }
 
-            this.Compact();
+            //this.Compact();
             inVal.Compact();
 
             if (Length == inVal.Length)
@@ -743,29 +752,33 @@ namespace CyMathCore
             {
                 if (positive) { return -1; }
                 else { return 1; }
-            }
-
-
-            //return 0;
+            };
         }
 
 
-        public override bool Equals(object obj)
+        public bool Equals(IntVL input)
         {
-            if (obj == null) { return false; }
-            IntVL input = obj as IntVL;
-
             if (positive != input.positive) { return false; }
             this.Compact();
             input.Compact();
             if (Length != input.Length) { return false; }
-            
+
             for (int ndx = 0; ndx < Length; ndx++)
             {
                 if (digits[ndx] != input.digits[ndx]) { return false; }
             }
 
             return true;
+        }
+
+
+        public override bool Equals(object obj)
+        {
+            if (obj is IntVL intVal)
+            {
+                return Equals(intVal);
+            }
+            else return false;
         }
 
         public override int GetHashCode()
@@ -813,30 +826,6 @@ namespace CyMathCore
             if (modeREs.IsZero) { return 9; }
 
             return modeREs.ToInt32();
-
-
-            //IntVL one = new(1);
-            //IntVL two = this - one;
-
-            //IntVL res = one + two.Modulus(new(9));
-
-            //return res.ToInt32();
-
-            //long digital_root = -1;
-            //IntVL check = new(this);
-
-            //while (digital_root < 0 || digital_root > 9)
-            //{
-            //    digital_root = 0;
-            //    for (int i = 0; i < check.digits.Length; i++)
-            //    {
-            //        digital_root += digits[i];
-            //    }
-            //    if(digital_root < 10) { break; }
-            //    check = new(digital_root);
-            //}
-
-            //return (int)digital_root;
         }
 
 
@@ -859,7 +848,7 @@ namespace CyMathCore
         }
 
         /// <summary>
-        /// Shrink space used do minimum size.  Minumum size = 1 for values < 10
+        /// Shrink space used do minimum size.  Minimum size = 1 for values < 10
         /// </summary>
         public void Compact()
         {
@@ -930,13 +919,19 @@ namespace CyMathCore
                 stringVal = stringVal[1..]; //.Substring(1, stringVal.Length - 1);
             }
 
+            if(stringVal.Contains('.'))
+            {
+                string[] parts = stringVal.Split('.');
+                stringVal = parts[0];
+            }
+
             byte[] nDigits = new byte[stringVal.Length];
 
             for (int i = 0; i < stringVal.Length; i++)
             {
                 char ch = stringVal[stringVal.Length - 1 - i];
-                if (!charMap.ContainsKey(ch)) { throw new ArgumentException("*Error: IntVL Parsing Error!"); }
-                nDigits[i] = charMap[ch];
+                if (!charMap.TryGetValue(ch, out byte value)) { throw new ArgumentException("*Error: IntVL Parsing Error!"); }
+                nDigits[i] = value;
             }
 
             return new IntVL(pos, nDigits);
@@ -955,6 +950,10 @@ namespace CyMathCore
 
             return res;
         }
+
+        
+
+
 
         #endregion Conversions
 

@@ -14,7 +14,7 @@ namespace CyMathCore
         // https://www.youtube.com/watch?v=oBt53YbR9Kk&t=4996s
         public static IntVL Fibonacci(int val, Dictionary<int, IntVL> memo)
         {
-            if (memo.ContainsKey(val)) { return memo[val]; }
+            if (memo.TryGetValue(val, out IntVL value)) { return value; }
             if (val <= 0) { throw new InvalidOperationException("*Error: Cannot calculate Fibonacci nr for zero or negative numbers"); }
             if (val <= 2) { return new IntVL(1); }
             IntVL result = Fibonacci(val - 2, memo) + Fibonacci(val - 1, memo);
@@ -62,12 +62,19 @@ namespace CyMathCore
                 small = new(val1.Absolute());
             }
             //TODO:  Euclid's algorithm 
+            throw new NotImplementedException();
 
             return new IntVL();
         }
 
         public static bool IsPrime(IntVL checkPrime)
         {
+            if (checkPrime >= 0 && checkPrime < long.MaxValue)
+            {
+                PrimeCalc calc = new();
+                return calc.IsPrime(checkPrime.ToInt64());
+            }
+
             return new EratosthenesVL().IsPrime(checkPrime);
         }
         
