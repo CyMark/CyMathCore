@@ -5,7 +5,7 @@ The purpose of this library is to provide mathematics constructs and processing 
 This is a conversion of .Net 4.6.1 to .NetCore of "CyMath RELEASE V1.6 BUILD 7 Revision 98".  It is intended to extend this
 library to contain things like PrimeCalc (From MathView).
 
-Platform: .Net 6.0
+Platform: .Net 8.0 ( from V4.0)
 Repositor:  GitHub CyMark\CyMathCore
 Dependencies:  None
 
@@ -106,6 +106,11 @@ CyMathCore RELEASE V3.5 BUILD 16 Revision 111
 Date: 19 March 2023
 - MathVL convert Fibonacci to use memo:  Memoize
 - Add as UnitTest
+
+
+CyMathCore RELEASE V4.0 BUILD 17 Revision 112
+Date: 10 September 2024
+- Convert to .Net8 and clean-up.
 
 
 

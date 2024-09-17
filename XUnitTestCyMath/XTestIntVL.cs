@@ -26,6 +26,7 @@ namespace XUnitTestCyMath
         }
 
 
+
         [Theory]
         [InlineData("123", "123")]
         [InlineData("000123", "123")]
@@ -262,7 +263,7 @@ namespace XUnitTestCyMath
         public void IntVL_Fibonacci(int input,Int64 output)
         {
             IntVL result = new(output);
-            IntVL actual = MathVL.Fibbonacci(input);
+            IntVL actual = MathVL.Fibonacci(input);
             Assert.Equal(actual, result);
         }
 

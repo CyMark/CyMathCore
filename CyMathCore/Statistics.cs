@@ -11,12 +11,12 @@ namespace CyMathCore
     {
 
         /// <summary>
-        /// Returns the probabity at a value on the x-axist of a bell curve
+        /// Returns the probability at a value on the x-axis of a bell curve
         /// with mean and standard deviation stdDeviation
         /// </summary>
-        /// <param name="value">Indpendent varialble for which the distribtion function is calcualted</param>
+        /// <param name="value">Independent variable for which the distribution function is calculated</param>
         /// <param name="mean">Mean of probability function</param>
-        /// <param name="stDeviation">Standard Deviation of probablity function</param>
+        /// <param name="stDeviation">Standard Deviation of probability function</param>
         /// <returns></returns>
         public static double NormalDistribution(double value, double mean, double stDeviation)
         {
@@ -28,7 +28,7 @@ namespace CyMathCore
         }
 
         /// <summary>
-        /// Probablity is area under Normal curve from -infinity (3 std deviactions) to value.
+        /// Probability is area under Normal curve from -infinity (3 std deviations) to value.
         /// </summary>
         /// <param name="value"></param>
         /// <param name="mean"></param>
@@ -36,7 +36,7 @@ namespace CyMathCore
         /// <returns></returns>
         public static double NormalDistributionCumulative(double value, double mean, double stDeviation)
         {
-            // calc area under the curve in 1000 units between mean - 3 * stdDev and mean + 3 * stdDeve
+            // calc area under the curve in 1000 units between mean - 3 * stdDev and mean + 3 * stdDeviation
 
             if (value < mean - 3*stDeviation) { return 0; }
             if (value > mean + 3*stDeviation) { return 1; }

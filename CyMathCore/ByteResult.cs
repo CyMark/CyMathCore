@@ -3,7 +3,7 @@
 namespace CyMathCore
 {
     /// <summary>
-    /// Apply arithmatic to a single byte with overflow.  Max byte value is 0x9
+    /// Apply arithmetic to a single byte with overflow.  Max byte value is 0x9
     /// </summary>
     public class ByteResult
     {
@@ -74,8 +74,7 @@ namespace CyMathCore
             }
         }
 
-
-        void CheckError(byte a)
+        private static void CheckError(byte a)
         {
             if (a > 9) { throw new ArithmeticException($"*Error: Value range for byte is 0-9, but was {a}!"); }
         }

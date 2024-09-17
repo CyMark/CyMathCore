@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CyMathCore
 {
-    public class PolarPoperty
+    public class PolarProperty
     {
-        public PolarPoperty()
+        public PolarProperty()
         {
             Radius = 0;
             Angle = 0;
@@ -17,9 +17,9 @@ namespace CyMathCore
         public double Radius  { get; set; }
         public double Angle  { get; set; }
 
-        public PolarPoperty CalculatePolar(double XValue, double YValue)
+        public PolarProperty CalculatePolar(double XValue, double YValue)
         {
-            PolarPoperty prop = new();
+            PolarProperty prop = new();
 
             if (XValue == 0 && YValue == 0) { return prop; }
 

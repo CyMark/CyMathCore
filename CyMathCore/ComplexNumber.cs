@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CyMathCore
 {
-    public class ComplexNumber
+    public class ComplexNumber : IEquatable<ComplexNumber>
     {
 
         public ComplexNumber()
@@ -21,7 +21,7 @@ namespace CyMathCore
             Imaginary = imaginary;
         }
 
-        public ComplexNumber(PolarPoperty polar)
+        public ComplexNumber(PolarProperty polar)
         {
             Real = polar.Radius * Math.Cos(polar.Angle);
             Imaginary = polar.Radius * Math.Sin(polar.Angle);
@@ -78,13 +78,13 @@ namespace CyMathCore
         {
             if (right.IsZero) { throw new DivideByZeroException(); }
 
-            ComplexNumber rightConj = right.Conjugate();
+            ComplexNumber rightConjugate = right.Conjugate();
 
-            ComplexNumber denom = right*rightConj; 
+            ComplexNumber denominator = right*rightConjugate; 
 
-            ComplexNumber numerator = left*rightConj;
+            ComplexNumber numerator = left*rightConjugate;
 
-            return numerator / denom.Real;
+            return numerator / denominator.Real;
         }
 
         public static ComplexNumber operator /(ComplexNumber left, double right)
@@ -104,24 +104,17 @@ namespace CyMathCore
             ComplexNumber tmp = obj as ComplexNumber;
 
             return tmp.Real == Real && tmp.Imaginary == Imaginary;
-
         }
 
 
-        public PolarPoperty ToPolar()
+        public PolarProperty ToPolar()
         {
-            return new PolarPoperty().CalculatePolar(Real, Imaginary);
+            return new PolarProperty().CalculatePolar(Real, Imaginary);
         }
 
         public override int GetHashCode()
         {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hash = 17;
-                hash = hash * 23 + Real.GetHashCode();
-                hash = hash * 23 + Imaginary.GetHashCode();
-                return hash;
-            }
+            return HashCode.Combine(Real, Imaginary);
         }
 
         public override string ToString()
@@ -133,6 +126,9 @@ namespace CyMathCore
             return res;
         }
 
-
+        public bool Equals(ComplexNumber other)
+        {
+            return this.Real == other.Real && this.Imaginary <= other.Imaginary;
+        }
     }
 }

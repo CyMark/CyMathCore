@@ -15,14 +15,14 @@ namespace CyMathCore
 
         public EratosthenesVL()
         {
-            PrimeList = new List<IntVL>
-            {
+            PrimeList =
+            [
                 new IntVL(2),
                 new IntVL(3),
                 new IntVL(5),
                 new IntVL(7),
                 new IntVL(11),
-            };
+            ];
             _lastChecked = PrimeList[^1];
         }
 
@@ -30,16 +30,16 @@ namespace CyMathCore
 
         public void LoadPrimeList(List<IntVL> primeList)
         {
-            PrimeList = new List<IntVL>();
+            PrimeList = [];
             foreach (var vl in primeList) { PrimeList.Add(vl); }
-            _lastChecked = PrimeList[^1];
+            { _lastChecked = PrimeList[^1]; }
         }
 
         public void LoadPrimeList(List<long> primeList)
         {
-            PrimeList = new List<IntVL>();
+            PrimeList = [];
             foreach (var vl in primeList) { PrimeList.Add(vl); }
-            _lastChecked = PrimeList[^1];
+            { _lastChecked = PrimeList[^1]; }
         }
 
         /// <summary>

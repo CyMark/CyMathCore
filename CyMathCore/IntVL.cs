@@ -62,7 +62,7 @@ namespace CyMathCore
         }
 
         public IntVL(int val) : this((long)val)
-        {; }
+        { ; }
 
 
         public bool IsZero
@@ -92,8 +92,8 @@ namespace CyMathCore
 
         //---- internal
 
-        bool IsNil(byte digit) => (nil | digit) == 0;
-        byte TrimByte(byte digit) => digit < 10 ? digit : (byte)9;
+        private static bool IsNil(byte digit) => (nil | digit) == 0;
+        //private static byte TrimByte(byte digit) => digit < 10 ? digit : (byte)9;
         //---- internal
 
         public int Length { get { return digits.Length; } }
@@ -151,9 +151,7 @@ namespace CyMathCore
         // +
         public static IntVL operator +(IntVL left, IntVL right) => left.Add(right);
         public static IntVL operator +(IntVL left, int right) => left.Add(new IntVL(right));
-        //public static IntVL operator +(int left, IntVL right) => right.Add(new IntVL(left));
         public static IntVL operator +(IntVL left, long right) => left.Add(new IntVL(right));
-        //public static IntVL operator +(long left, IntVL right) => right.Add(new IntVL(left));
 
         // ++
         public static IntVL operator ++(IntVL val) => val + new IntVL(1);
@@ -161,7 +159,7 @@ namespace CyMathCore
         public static IntVL operator --(IntVL val) => val - new IntVL(1);
         
 
-        // assignemt
+        // assignment
         public static implicit operator IntVL(int x) => new(x);
         public static implicit operator IntVL(long x) => new(x);
 
@@ -198,6 +196,7 @@ namespace CyMathCore
 
             return res;
         }
+
 
         public IntVL Combine(IntVL val)
         {
@@ -262,7 +261,7 @@ namespace CyMathCore
         }
 
 
-        private byte[] ByteSubtract(byte[] th, byte[] val)
+        private static byte[] ByteSubtract(byte[] th, byte[] val)
         {
             int mxLen = th.Length;
             if (val.Length > th.Length) { mxLen = val.Length; }
@@ -294,86 +293,8 @@ namespace CyMathCore
 
 
         public IntVL Subtract(IntVL val) => Combine(val.Negate());
+
         /*
-        
-        public IntVL Subtract(IntVL val)
-        {
-            if (IsZero) { return new IntVL(val); }
-            if (val.IsZero) { return new IntVL(this); }
-            
-            if (val.positive == this.positive)
-            {
-                IntVL tmp = new IntVL(val);
-                //tmp.positive = true; // make positve
-                return Add(tmp);
-            }
-            
-            if (val.positive && !positive)
-            {
-                IntVL tmp = new IntVL(this);
-                tmp.positive = true; // make positve
-                return val.Add(tmp);
-            }
-            
-
-            IntVL output = new IntVL();
-
-            int mxLen = Length;
-            if (val.Length > Length) { mxLen = val.Length; }
-            mxLen++;
-            byte[] result = new byte[mxLen];
-            byte residual = 0;
-            ByteResult r = new ByteResult();
-            if (this >= val)
-            {
-                for (int n = 0; n < mxLen; n++)
-                {
-                    byte A = 0;
-                    byte B = 0;
-                    if (n < Length) { A = digits[n]; }
-                    if (n < val.Length) { B = val[n]; }
-                    if (residual > 0)
-                    {
-                        r.Subtract(A, residual);
-                        A = r.Result;
-                        residual = r.OverFlow;
-                    }
-                    r.Subtract(A, B);
-                    result[n] = r.Result;
-                    residual += r.OverFlow;
-                }
-                output.positive = true;
-            }
-            else
-            {
-                for (int n = 0; n < mxLen; n++)
-                {
-                    byte A = 0;
-                    byte B = 0;
-                    if (n < val.Length) { A = val[n]; }
-                    if (n < Length) { B = digits[n]; }
-                    if (residual > 0)
-                    {
-                        r.Subtract(A, residual);
-                        A = r.Result;
-                        residual = r.OverFlow;
-                    }
-                    r.Subtract(A, B);
-                    result[n] = r.Result;
-                    residual += r.OverFlow;
-                }
-                output.positive = false;
-            }
-
-            //if (this >= val) { positive = true; }
-            //else { positive = false; }
-
-            output = new IntVL(output.positive, result);
-            output.Compact();
-            return output;
-        }
-        */
-
         private IntVL Sub(IntVL Left, IntVL Right)
         {
             if (Right.IsZero) { return new IntVL(Left); }
@@ -384,14 +305,14 @@ namespace CyMathCore
             mxLen++;
 
             //if(val > this) { positive = false; }
-            IntVL tleft = Left.Absolute();
-            IntVL tright = Right.Absolute();
-            IntVL left = new(tleft);
-            IntVL right = new(tright);
-            if (tleft < tright)
+            IntVL tLeft = Left.Absolute();
+            IntVL tRight = Right.Absolute();
+            IntVL left = new(tLeft);
+            IntVL right = new(tRight);
+            if (tLeft < tRight)
             {
-                left = new IntVL(tright);
-                right = new IntVL(tleft);
+                left = new IntVL(tRight);
+                right = new IntVL(tLeft);
             }
 
             ByteResult res = new();
@@ -413,19 +334,21 @@ namespace CyMathCore
             IntVL output = new(positive, result);
             if(Left < 0)
             {
-                if(tleft > tright) { output.positive = false; }
+                if(tLeft > tRight) { output.positive = false; }
                 else { output.positive = true; }
                 //throw new Exception($"*Debug: output.positive={output.positive}");
             }
             else
             {
-                if (tleft > tright) { output.positive = true; }
+                if (tLeft > tRight) { output.positive = true; }
                 else { output.positive = false; }
             }
 
             output.Compact();
             return output;
         }
+        */
+
 
         /// <summary>
         /// Multiplies by 10 n times
@@ -442,6 +365,7 @@ namespace CyMathCore
             }
             return res;
         }
+
 
         /// <summary>
         /// Multiplies by 10 
@@ -463,7 +387,6 @@ namespace CyMathCore
         }
 
 
-
         public IntVL Multiply(IntVL right)
         {
             if (IsZero || right == 1) { return new(this); }
@@ -477,8 +400,7 @@ namespace CyMathCore
                 bottom = new(this);
             }
             IntVL res = new();
-            //byte[] result = new byte[top.Length + bottom.Length];
-            //IntVL ntop = new IntVL(top);
+
             for(int n = 0; n < bottom.Length; n++)
             {
                 res += top.Multiply(bottom.digits[n]);
@@ -641,24 +563,24 @@ namespace CyMathCore
 
 
 
-        private int GetTopTwoDigits(IntVL val)
-        {
-            if(val.IsZero) { return 0; }
-            if(val.Length == 1)
-            {
-                return (int)val.digits[val.Length - 1];
-            }
+        //private static int GetTopTwoDigits(IntVL val)
+        //{
+        //    if(val.IsZero) { return 0; }
+        //    if(val.Length == 1)
+        //    {
+        //        return (int)val.digits[val.Length - 1];
+        //    }
 
-            int result = val.digits[val.Length - 1] * 10;
-            result += val.digits[val.Length - 2];
-            return result;
-        }
+        //    int result = val.digits[val.Length - 1] * 10;
+        //    result += val.digits[val.Length - 2];
+        //    return result;
+        //}
 
         // get the integer at byte positions pos and pos+1
-        private int GetIntAtPos(IntVL val, int pos)
-        {
-            return 0;
-        }
+        //private static int GetIntAtPos(IntVL val, int pos)
+        //{
+        //    return 0;
+        //}
 
         public static IntVL UnitVL => new(1);
 
@@ -710,20 +632,20 @@ namespace CyMathCore
         }  // DivideEstimate
         */
 
-        private IntVL GetTopNrDigits(IntVL val, int nrDigits)
-        {
-            val.Compact();
-            if(nrDigits >= val.Length) { return new(val); }
+        //private IntVL GetTopNrDigits(IntVL val, int nrDigits)
+        //{
+        //    val.Compact();
+        //    if(nrDigits >= val.Length) { return new(val); }
 
-            byte[] narr = new byte[nrDigits];
-            for(int n = 0; n < nrDigits; n++)
-            {
-                narr[n] = val[val.Length - 1 - nrDigits + n];
-            }
+        //    byte[] nArr = new byte[nrDigits];
+        //    for(int n = 0; n < nrDigits; n++)
+        //    {
+        //        nArr[n] = val[val.Length - 1 - nrDigits + n];
+        //    }
 
 
-            return new IntVL(val.positive, narr);
-        }
+        //    return new IntVL(val.positive, nArr);
+        //}
 
 
 
@@ -749,7 +671,6 @@ namespace CyMathCore
             {
                 if(range < 0) { break; }
                 IntVL shifted_denominator = Denominator.ShiftLeft(range); // x10 so same nr digits above/below divide line
-                //throw new Exception($"r={range},N={Numerator},SD={shifted_denominator}");
                 IntVL diff = Numerator - shifted_denominator;
                 if (shifted_denominator <= Numerator)
                 {
@@ -784,22 +705,22 @@ namespace CyMathCore
         public int CompareTo(object obj)
         {
             if (Equals(obj)) { return 0; }
-            IntVL inval = obj as IntVL;
-            if (positive != inval.positive)
+            IntVL inVal = obj as IntVL;
+            if (positive != inVal.positive)
             {
                 if (positive) { return 1; }
                 else { return -1; }
             }
 
             this.Compact();
-            inval.Compact();
+            inVal.Compact();
 
-            if (Length == inval.Length)
+            if (Length == inVal.Length)
             {
                 for (int n = Length - 1; n >= 0; n--)
                 {
-                    if (digits[n] == inval.digits[n]) { continue; }
-                    if (digits[n] > inval.digits[n])
+                    if (digits[n] == inVal.digits[n]) { continue; }
+                    if (digits[n] > inVal.digits[n])
                     {
                         if (positive) { return 1; }
                         else { return -1; }
@@ -813,7 +734,7 @@ namespace CyMathCore
                 throw new OverflowException("*Error: CompareTo overflow!");
             }
 
-            if (Length > inval.Length)
+            if (Length > inVal.Length)
             {
                 if (positive) { return 1; }
                 else { return -1; }

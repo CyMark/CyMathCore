@@ -10,7 +10,7 @@ namespace CyMathCore
     /// </summary>
     public class Number : IComparable
     {
-        const string errorArithmatic = "*Error: Not a Number! Undefined or not initialised!";
+        const string errorArithmetic = "*Error: Not a Number! Undefined or not initialised!";
         const string errorOverflow = "*Error: Arithmetic overflow! Nr larger or smaller than 56 bits!";
         const string errorExponentOverflow = "*Error: Exponent > 127 or < -127!";
         const string errorOperation = "*Error: Incorrect operation detected!";
@@ -36,9 +36,9 @@ namespace CyMathCore
             significand = 1;
         }
 
-        public Number(long coeff, sbyte exp)
+        public Number(long coefficient, sbyte exp)
         {
-            significand = coeff;
+            significand = coefficient;
             exponent = exp;
             CheckOverflow();
         }
@@ -56,7 +56,7 @@ namespace CyMathCore
 
             exponent = 0;
             significand = value;
-            //if(value > 2147483647) throw new Exception("*Debug: c=" + coefficient.ToString() + ", e=" + exponent + ", v=" + value.ToString());
+            
             // Check precision
             if (significand >= MaxValue)
             {
@@ -64,7 +64,6 @@ namespace CyMathCore
                 {
                     significand /= 10;
                     exponent++;
-                    //throw new Exception("*Debug: c=" + coefficient.ToString() + ", e=" + exponent);
                 }
                 return;
             }
@@ -80,18 +79,18 @@ namespace CyMathCore
 
         public Number(double value)
         {
-            Number cnum = Number.Parse(value.ToString());
-            significand = cnum.significand;
-            exponent = cnum.exponent;
+            Number cNumber = Number.Parse(value.ToString());
+            significand = cNumber.significand;
+            exponent = cNumber.exponent;
             return;
         }  // ctor
 
 
         public Number(decimal Value)
         {
-            Number cnum = Number.Parse(Value.ToString());
-            significand = cnum.significand;
-            exponent = cnum.exponent;
+            Number cNumber = Number.Parse(Value.ToString());
+            significand = cNumber.significand;
+            exponent = cNumber.exponent;
             return;
         }
 
@@ -109,7 +108,7 @@ namespace CyMathCore
             string mantissa = txt.Trim().ToUpper().Replace("+", "");
             string fraction = null;
 
-            long coeff;
+            long coefficient;
             int expInt = 0;
             sbyte exp;
             bool isNeg = false;
@@ -176,13 +175,13 @@ namespace CyMathCore
                 }
             }
 
-            coeff = Int64.Parse(mantissa);
+            coefficient = Int64.Parse(mantissa);
 
-            if (coeff >= MaxValue)
+            if (coefficient >= MaxValue)
             {
-                while (coeff > MaxValue)
+                while (coefficient > MaxValue)
                 {
-                    coeff /= 10;
+                    coefficient /= 10;
                     expInt++;
                 }
             }
@@ -190,7 +189,7 @@ namespace CyMathCore
             if (expInt > 127 || expInt < -127) { throw new OverflowException(errorExponentOverflow); }
             else { exp = (sbyte)expInt; }
 
-            return new Number(isNeg ? -coeff : coeff, exp);
+            return new Number(isNeg ? -coefficient : coefficient, exp);
         } // Parse
 
 
@@ -218,9 +217,9 @@ namespace CyMathCore
         public bool IsZero { get { return significand == 0; } }
 
 
-        public void MultTen()
+        public void MultiplyByTen()
         {
-            if (NaN) throw new ArithmeticException(errorArithmatic);
+            if (NaN) throw new ArithmeticException(errorArithmetic);
             if (exponent == 127)
             {
                 significand *= 10;
@@ -228,14 +227,14 @@ namespace CyMathCore
             }
             else
                 exponent++;
-        } // MultTen
+        } // MultiplyByTen
 
 
-        public void DivTen()
+        public void DivideByTen()
         {
             if (NaN)
             {
-                throw new ArithmeticException(errorArithmatic);
+                throw new ArithmeticException(errorArithmetic);
             }
 
             if (exponent == -127)
@@ -255,7 +254,7 @@ namespace CyMathCore
 
         private void CheckNaN()
         {
-            if (this.NaN) throw new InvalidOperationException(errorArithmatic);
+            if (this.NaN) throw new InvalidOperationException(errorArithmetic);
         }
 
         private static void CheckExponent(int Exponent)
@@ -273,7 +272,7 @@ namespace CyMathCore
         public Number AdjustExponent(sbyte value)
         {
             Number res = new (this);
-            if (NaN) throw new ArithmeticException(errorArithmatic);
+            if (NaN) throw new ArithmeticException(errorArithmetic);
             if (IsZero)
             {
                 return res;
@@ -319,8 +318,8 @@ namespace CyMathCore
 
 
         /// <summary>
-        /// Shift the coefficient right by dividing by 10 and increasing the exponent. If least significant not zero, presicion lost
-        /// Imutable.
+        /// Shift the coefficient right by dividing by 10 and increasing the exponent. If least significant not zero, precision lost
+        /// Immutable.
         /// </summary>
         /// <returns></returns>
         public Number ShiftCoefficientRight()
@@ -335,7 +334,7 @@ namespace CyMathCore
 
 
         /// <summary>
-        /// Shift the coefficient left by multiplying by 10 and decreasing the exponent. Imutable.
+        /// Shift the coefficient left by multiplying by 10 and decreasing the exponent. Immutable.
         /// </summary>
         /// <returns></returns>
         public Number ShiftCoefficientLeft()
@@ -397,7 +396,7 @@ namespace CyMathCore
 
         public static Number operator +(Number left, Number right)
         {
-            if (left.NaN || right.NaN) throw new InvalidOperationException(errorArithmatic);
+            if (left.NaN || right.NaN) throw new InvalidOperationException(errorArithmetic);
             Number lh = new (left);
             Number rh = new (right);
             if (lh.IsZero) { return rh; }
@@ -414,7 +413,7 @@ namespace CyMathCore
                         lh = lh.AdjustExponent(rh.exponent);  // Adjust the other side if a limit was reach
                         if (rh.exponent != lh.exponent)
                         {
-                            // numbers are not compatable
+                            // numbers are not compatible
                             return rh;
                             throw new OverflowException(errorOverflow);
                         }
@@ -429,7 +428,7 @@ namespace CyMathCore
                         rh = rh.AdjustExponent(lh.exponent);
                         if (rh.exponent != lh.exponent)
                         {
-                            // numbers are not compatable
+                            // numbers are not compatible
                             return lh;
                             throw new OverflowException(errorOverflow);
                         }
@@ -448,7 +447,7 @@ namespace CyMathCore
         {
             return left + new Number(-right.significand, right.exponent);
             /*
-            if (left.NaN || right.NaN) throw new InvalidOperationException(errorArithmatic);
+            if (left.NaN || right.NaN) throw new InvalidOperationException(errorArithmetic);
             Number lh = new Number(left);
             Number rh = new Number(right);
             if (lh.exponent != rh.exponent)
@@ -481,8 +480,8 @@ namespace CyMathCore
             Number lh = left.FlushZeroes(); // Make coefficient as small as possible
             Number rh = right.FlushZeroes();
 
-            int exptot = (int)lh.exponent + (int)rh.exponent;
-            if (exptot > 127 || exptot < -127) { throw new OverflowException(errorExponentOverflow); }
+            int expTotal = (int)lh.exponent + (int)rh.exponent;
+            if (expTotal > 127 || expTotal < -127) { throw new OverflowException(errorExponentOverflow); }
 
             bool LHisNeg = false;
             if (lh < 0)
@@ -515,27 +514,22 @@ namespace CyMathCore
                 }
                 CheckLH = !CheckLH;
             }
-            exptot = (int)lh.exponent + (int)rh.exponent; // recalc here after all the shifting
+            expTotal = (int)lh.exponent + (int)rh.exponent; // recalculate here after all the shifting
 
-            long coeff = LHisNeg ? -lh.significand : lh.significand;
+            long coefficient = LHisNeg ? -lh.significand : lh.significand;
 
-            try { coeff *= RHisNeg ? -rh.significand : rh.significand; }
+            try { coefficient *= RHisNeg ? -rh.significand : rh.significand; }
             catch { throw new Exception("DEBUG: value too large!"); }
 
-            // trim nr until coeff < 56 bits
-            while (coeff > MaxValue || coeff < MinValue)
+            // trim nr until coefficient < 56 bits
+            while (coefficient > MaxValue || coefficient < MinValue)
             {
-                coeff /= 10;
-                exptot++;
+                coefficient /= 10;
+                expTotal++;
             }
 
-            Number nNr = new (coeff, (sbyte)exptot);
-            /*
-            if(coeff > MaxValue || coeff < MinValue)
-            {
-                // todo adjust exp to fit coeff into 56 bits
-            }
-            */
+            Number nNr = new (coefficient, (sbyte)expTotal);
+
             return nNr;
 
         } // operator *
@@ -552,10 +546,10 @@ namespace CyMathCore
             Number rh = new Number(right).FlushZeroes();  // Denominator coefficient as small as possible without
             Number lh = new Number(left).FlushLeft();   // Numerator coefficient as large as possible
 
-            int exptot = lh.exponent - rh.exponent;
-            if (exptot > 127 || exptot < -127) { throw new OverflowException(errorExponentOverflow); }
+            int expTotal = lh.exponent - rh.exponent;
+            if (expTotal > 127 || expTotal < -127) { throw new OverflowException(errorExponentOverflow); }
 
-            return new (lh.significand / rh.significand, (sbyte)exptot);
+            return new (lh.significand / rh.significand, (sbyte)expTotal);
         }
 
         public static bool operator ==(Number left, Number right) => left.Equals(right);
@@ -635,7 +629,7 @@ namespace CyMathCore
 
         #endregion operators
 
-        //--------- Built in arithmatic operators  ----------------------
+        //--------- Built in arithmetic operators  ----------------------
         #region Built in arithmatic operators
 
 
@@ -648,9 +642,9 @@ namespace CyMathCore
         {
             CheckOverflow();
             CheckNaN();
-            //long coeff = coefficient < 0 ? -coefficient : coefficient;
+            //long coefficient = coefficient < 0 ? -coefficient : coefficient;
             return new Number(significand < 0 ? -significand : significand, exponent);
-        } // Asbsolute
+        } // Absolute
 
         public Number Abs() => Absolute();
 
@@ -665,7 +659,7 @@ namespace CyMathCore
         /// Returns this nr Multiplied by Pi.  Immutable.
         /// </summary>
         /// <returns></returns>
-        public Number PiMult() => Number.Pi() * this;
+        public Number PiMultiply() => Number.Pi() * this;
 
         public Number Divide(Number denominator) => this / denominator;
 
@@ -679,17 +673,17 @@ namespace CyMathCore
             int expAbs = (isNeg ? -Exponent : Exponent);
             int expInt = expAbs * exponent;
 
-            long coeff = significand;
+            long coefficient = significand;
             for (int n = 1; n < expAbs; n++)
             {
-                coeff *= significand;
+                coefficient *= significand;
             }
 
             CheckExponent(expInt);
 
-            if (isNeg) { return new Number(1) / new Number(coeff, (sbyte)expInt); }
+            if (isNeg) { return new Number(1) / new Number(coefficient, (sbyte)expInt); }
 
-            return new Number(coeff, (sbyte)expInt);
+            return new Number(coefficient, (sbyte)expInt);
         } // Power
 
 
@@ -715,8 +709,6 @@ namespace CyMathCore
         public Number Euler()
         {
             Number res = 1 + new Number(this);
-            //res = new Number(0) + (this.Power(2) / Number.Faculty(2));
-            //return res + (this.Power(2) / Number.Faculty(2));,
 
             for (int n = 2; n < 24; n++) //25
             {
@@ -738,11 +730,6 @@ namespace CyMathCore
 
         public Number Ln()
         {
-            //object[] nrs = { 0b1, 0b10, "text", new object[] { 0b100, 0b10000, 0b100000, 0b11_1001_0100_0100_0111 }, 55 };
-
-            //(int sum, int count) = Tally(nrs);
-
-            //string x = $"Sum={sum} and Count={count}";
 
             if (this <= 0) { throw new ArithmeticException("*Error: Natural logarithms for X <= 0 is not valid!"); }
             if (this == 1) { return new Number(0); }
@@ -775,7 +762,7 @@ namespace CyMathCore
         {
             if (obj == null) { return false; }
             Number tmp = obj as Number;
-            if (tmp.NaN) throw new InvalidOperationException(errorArithmatic);
+            if (tmp.NaN) throw new InvalidOperationException(errorArithmetic);
 
             if (tmp.significand == significand && tmp.exponent == exponent) return true;
             Number lh = new (this);
@@ -797,20 +784,14 @@ namespace CyMathCore
 
         public override int GetHashCode()
         {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hash = 17;
-                hash = hash * 23 + significand.GetHashCode();
-                hash = hash * 23 + exponent.GetHashCode();
-                return hash;
-            }
+            return HashCode.Combine(significand, exponent);
         }
 
         public int CompareTo(object obj)
         {
             if (obj == null) return -1;
             Number tmp = obj as Number;
-            if (tmp.NaN) throw new InvalidOperationException(errorArithmatic);
+            if (tmp.NaN) throw new InvalidOperationException(errorArithmetic);
 
             Number lh = new (this);
             Number rh = new (tmp);
@@ -832,7 +813,7 @@ namespace CyMathCore
         public long ToInt64()
         {
             if (IsZero) return 0;
-            if (NaN) throw new ArithmeticException(errorArithmatic);
+            if (NaN) throw new ArithmeticException(errorArithmetic);
 
             Number res = AdjustExponent(0);
 
@@ -844,7 +825,7 @@ namespace CyMathCore
         public int ToInt32()
         {
             if (IsZero) return 0;
-            if (NaN) throw new ArithmeticException(errorArithmatic);
+            if (NaN) throw new ArithmeticException(errorArithmetic);
 
             return (int)ToInt64();
         }
@@ -852,8 +833,8 @@ namespace CyMathCore
 
         public double ToDouble()
         {
-            if (IsZero) return 0;
-            if (NaN) throw new ArithmeticException(errorArithmatic);
+            if (IsZero) { return 0; }
+            if (NaN) { throw new ArithmeticException(errorArithmetic); }
 
             double result = significand;
             if (exponent == 0) return result;
@@ -865,19 +846,18 @@ namespace CyMathCore
             }
             if (exponent > -16)
             {
-                long mult = 1;
+                long multiply = 1;
                 for (int x = 0; x > exponent; x--)
-                { mult *= 10; } // quicker to multiply
-                //if (mult >= 10000000000) throw new Exception("*Debug: ToDouble() c=" + coefficient + ", e=" + exponent + ", m=" + mult);
-                return result / mult;
+                { multiply *= 10; } // quicker to multiply
+
+                return result / multiply;
             }
             else
             {
-                //if (exponent <= -16) throw new Exception("*Debug: ToDouble() c=" + coefficient + ", e=" + exponent);
                 for (int x = 0; x > exponent; x--)
                 { result /= 10; }
             }
-            //if (mult >= 10000000000) throw new Exception("*Debug: ToDouble() c=" + coefficient + ", e=" + exponent + ", m=" + mult);
+
             return result;
 
         } // ToDouble
@@ -885,8 +865,8 @@ namespace CyMathCore
 
         public decimal ToDecimal()
         {
-            if (IsZero) return 0;
-            if (NaN) throw new ArithmeticException(errorArithmatic);
+            if (IsZero) { return 0; }
+            if (NaN) { throw new ArithmeticException(errorArithmetic); }
 
             decimal result = significand;
             if (exponent == 0) { return result; }
@@ -898,14 +878,13 @@ namespace CyMathCore
             }
             if (exponent > -16)
             {
-                long mult = 1;
+                long multiply = 1;
                 for (int x = 0; x > exponent; x--)
-                { mult *= 10; } // quicker to multiply
-                return result / mult;
+                { multiply *= 10; } // quicker to multiply
+                return result / multiply;
             }
             else
             {
-                //if (exponent <= -16) throw new Exception("*Debug: ToDouble() c=" + coefficient + ", e=" + exponent);
                 for (int x = 0; x > exponent; x--)
                 { result /= 10; }
             }
@@ -916,9 +895,9 @@ namespace CyMathCore
 
         public override string ToString()
         {
-            if (NaN) return "NaN";
-            if (IsZero) return "0";
-            if (exponent == 0) return significand.ToString();
+            if (NaN) { return "NaN"; }
+            if (IsZero) { return "0"; }
+            if (exponent == 0) { return significand.ToString(); }
             return significand.ToString() + "e" + exponent.ToString();
         }
 
