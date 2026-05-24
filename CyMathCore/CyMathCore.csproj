@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Company>CyMark Largo Services</Company>
     <Authors>P.Swanepoel</Authors>
     <PackageId>CY31.006</PackageId>
-    <Copyright>© CyMark Largo Services 2020-2025</Copyright>
-    <Description>CyMathCore RELEASE V4.0 BUILD 17 Revision 112. Date: 10 September 2024</Description>
-    <Version>4.0.17</Version>
-    <AssemblyVersion>4.0.17.112</AssemblyVersion>
-    <FileVersion>4.0.17.112</FileVersion>
+    <Copyright>© CyMark Largo Services 2020-2026</Copyright>
+    <Description>CyMathCore RELEASE V4.1 BUILD 18 Revision 113. Date: 24 May 2026</Description>
+    <Version>4.1.18</Version>
+    <AssemblyVersion>4.1.18.113</AssemblyVersion>
+    <FileVersion>4.1.18.113</FileVersion>
   </PropertyGroup>
 
 </Project>

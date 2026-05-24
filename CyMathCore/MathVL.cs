@@ -64,7 +64,7 @@ namespace CyMathCore
             //TODO:  Euclid's algorithm 
             throw new NotImplementedException();
 
-            return new IntVL();
+            //return new IntVL();
         }
 
         public static bool IsPrime(IntVL checkPrime)

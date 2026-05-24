@@ -1,7 +1,7 @@
 CyMathCore RELEASE NOTES
 Date: 18 March 2019
 
-The purpose of this library is to provide mathematics constructs and processing for special mathematics needs
+The purpose of this library is to provide mathematics constructs and processing for special mathematics needs.
 This is a conversion of .Net 4.6.1 to .NetCore of "CyMath RELEASE V1.6 BUILD 7 Revision 98".  It is intended to extend this
 library to contain things like PrimeCalc (From MathView).
 
@@ -113,6 +113,10 @@ Date: 10 September 2024
 - Convert to .Net8 and clean-up.
 
 
+CyMathCore RELEASE V4.1 BUILD 18 Revision 113
+Date: 24 May 2026
+- Convert to Net 10.
+- Add Readme.md.
 
 
 

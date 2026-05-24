@@ -913,7 +913,7 @@ namespace CyMathCore
 
             if (string.IsNullOrEmpty(stringVal)) { return new IntVL(); }
             bool pos = true;
-            if (stringVal.StartsWith("-"))
+            if (stringVal.StartsWith('-'))
             {
                 pos = false;
                 stringVal = stringVal[1..]; //.Substring(1, stringVal.Length - 1);

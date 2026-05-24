@@ -143,6 +143,25 @@ namespace XUnitTestCyMath
             Assert.Equal(1, list[1].Count);
 
 
+            // big nr:
+            testNr = 10018200;
+            list = calc.GetPrimeFactors(testNr);
+            Assert.Equal(5, list.Count);
+
+            Assert.Equal(2, list[0].Prime);
+            Assert.Equal(3, list[0].Count);
+
+            Assert.Equal(3, list[1].Prime);
+            Assert.Equal(1, list[1].Count);
+
+            Assert.Equal(5, list[2].Prime);
+            Assert.Equal(2, list[2].Count);
+
+            Assert.Equal(59, list[3].Prime);
+            Assert.Equal(1, list[3].Count);
+
+            Assert.Equal(283, list[4].Prime);
+            Assert.Equal(1, list[4].Count);
         }
 
 
